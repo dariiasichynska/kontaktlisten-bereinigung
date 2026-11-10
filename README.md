@@ -104,6 +104,78 @@ A record goes to **Prüfen** with a plain reason. The script never guesses.
 - **A missing block list stops the run.** Without it, every blocked person would land in the clean list while the balance still says OK.
 - **Count the rows.** Each run writes a log line and checks `read = clean + review + blocked`. In 2020 Public Health England lost 15,841 COVID cases because a file format cut rows off without an error. A balance would have shown it at once.
 
+## The rules in code
+
+Seven rules as they appear in the script. Variable names are simplified for reading; the full code is in [`src/Bereinigung.gs`](src/Bereinigung.gs) and [`src/Code.gs`](src/Code.gs).
+
+**Invisible characters**
+
+```js
+text.replace(/[\u00AD\u200B-\u200F\u2060\uFEFF]/g, '')   // zero-width space, soft hyphen, direction marks
+    .replace(/[\u00A0\u2007\u202F]/g, ' ')               // non-breaking spaces
+    .replace(/\s+/g, ' ')
+    .trim()
+```
+
+These characters cannot be seen and arrive through copy and paste. Without this line, two identical e-mail addresses count as different.
+
+**Valid e-mail**
+
+```js
+/^[a-z0-9._%+-]+@[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/.test(email)
+```
+
+"Contains an @" is not enough. The rule also requires a domain with an ending; otherwise the row goes to review.
+
+**Phone: the one-liner and the script**
+
+```js
+// The usual one-liner, here as an n8n expression. It turns "+49 (0)30 …" into a wrong "+49030…".
+{{ $json.telefon.replace(/[^0-9+]/g, '').replace(/^00/, '+').replace(/^0/, '+49') }}
+
+// In the script (shortened)
+var t = text.replace(/\(0\)/g, '').replace(/[^0-9+]/g, '');      // remove "(0)" first
+if (nummer.indexOf('490') === 0) nummer = '49' + nummer.slice(3); // "+49 030 …" → "+4930…"
+if (nummer.length < 10 || nummer.length > 15) { /* → review: "Telefon nicht lesbar" */ }
+```
+
+The one-liner makes a number look tidy. The script also checks whether the result can be a phone number.
+
+**Compare without changing**
+
+```js
+text.toLowerCase()
+    .replace(/ä/g, 'ae').replace(/ö/g, 'oe').replace(/ü/g, 'ue').replace(/ß/g, 'ss')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')            // é → e
+```
+
+"Möller" and "Moeller" are equal for comparison. The stored name keeps the spelling of the most reliable source.
+
+**Excel number as a date**
+
+```js
+new Date(Date.UTC(1899, 11, 30) + Math.floor(wert) * 86400000)   // 46280 → 2026-09-15
+```
+
+Old exports often store a date as a number: the days since 30 December 1899.
+
+**Text format first, values second**
+
+```js
+bereich.setNumberFormat('@');   // plain text
+bereich.setValues(daten);
+```
+
+The other way round, Google Sheets turns "+4930…" into a number without the plus.
+
+**Balance**
+
+```js
+bilanzOk = gelesen === sauberZeilen + pruefenZeilen + gesperrt;
+```
+
+One line that shows after every run whether anything was lost.
+
 ## Privacy by design
 
 - Blocked rows are removed from **all** sources and written to no tab. Only their number appears in the log.
