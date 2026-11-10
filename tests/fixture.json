@@ -1,0 +1,1341 @@
+{
+ "Kontaktformular": [
+  [
+   "Anfrage-ID",
+   "Vorname",
+   "Nachname",
+   "Firma",
+   "E-Mail",
+   "Telefon",
+   "Eingang",
+   "Nachricht"
+  ],
+  [
+   "AN-2026-001",
+   "Malte",
+   "Pohl",
+   "Hafenmeister Gastro GmbH",
+   "m.pohl@hafenmeister.example",
+   "040 / 12",
+   "2026-08-17",
+   "Frage zu DSGVO bei automatisierten Newslettern."
+  ],
+  [
+   "AN-2026-002",
+   "Heike",
+   "Kaiser",
+   "",
+   "heikekaiser@t-online.example",
+   "",
+   "2026-08-01",
+   "Frage zu DSGVO bei automatisierten Newslettern."
+  ],
+  [
+   "AN-2026-003",
+   "Malte",
+   "Fischer",
+   "",
+   "maltefischer@web.example",
+   "",
+   "2026-04-04",
+   ""
+  ],
+  [
+   "AN-2026-004",
+   "Julia",
+   "Krüger",
+   "Kranich Versicherungsmakler GmbH",
+   "J.NEUMANN@KRANICH-MAKLER.EXAMPLE",
+   "069/9072851",
+   "2026-10-09",
+   "Wir suchen Unterstützung bei der Datenpflege im CRM."
+  ],
+  [
+   "AN-2026-005",
+   "Kai",
+   "Fuchs",
+   "Alpenweit Reisen GmbH",
+   "kai.fuchs@alpenweit.example",
+   "089 2665358",
+   "2026-05-27",
+   "Können Sie uns beim Onboarding neuer Mitarbeitender helfen?"
+  ],
+  [
+   "AN-2026-006",
+   "Tobias",
+   "Brandt",
+   "Brückner Elektrotechnik GmbH",
+   "Tobiasbrandt@brueckner-et.example",
+   "0049 341 6221324",
+   "2026-04-11",
+   ""
+  ],
+  [
+   "AN-2026-007",
+   "Timo",
+   "Wolf",
+   "Krume Backwaren GmbH",
+   "timo.wolf@krume-backwaren.example",
+   "0049 30 3901949",
+   "2026-06-03",
+   "Wir möchten unsere Rechnungsfreigabe automatisieren."
+  ],
+  [
+   "AN-2026-008",
+   "Philipp",
+   "Graf",
+   "Brückner Elektrotechnik GmbH",
+   "PHILIPP.GRAF@BRUECKNER-ET.EXAMPLE",
+   "+49 341 4368258",
+   "2026-04-07",
+   "Bitte um Rückruf wegen Angebotsprozess."
+  ],
+  [
+   "AN-2026-009",
+   "Ulrike",
+   "Groß",
+   "Löwenzahn Zahnarztpraxis",
+   "ulrikegross@loewenzahn-praxis.example",
+   "030/4499915",
+   "2026-07-31",
+   "Wir möchten unsere Rechnungsfreigabe automatisieren."
+  ],
+  [
+   "AN-2026-010",
+   "Michael",
+   "Böhm",
+   "Mühlbach Druckerei GmbH",
+   "michael.boehm@muehlbach-druck.example ",
+   "0711 7277418",
+   "2026-06-08",
+   "Können Sie uns beim Onboarding neuer Mitarbeitender helfen?"
+  ],
+  [
+   "AN-2026-011",
+   "Andreas",
+   "Fuchs",
+   "Kiezrad Berlin UG",
+   "ANDREAS.FUCHS@KIEZRAD.EXAMPLE",
+   "030-321-6536",
+   "2026-05-03",
+   "Frage zu DSGVO bei automatisierten Newslettern."
+  ],
+  [
+   "AN-2026-012",
+   "Markus",
+   "Ludwig",
+   "Nordlicht Steuerberatung PartG",
+   "m.ludwig@nordlicht-stb.example",
+   "",
+   "2026-10-29",
+   "Können Sie uns beim Onboarding neuer Mitarbeitender helfen?"
+  ],
+  [
+   "AN-2026-013",
+   "Jürgen",
+   "Becker",
+   "Havelkontor Logistik GmbH",
+   "juergen.becker@havelkontor.example",
+   "",
+   "2026-09-12",
+   "Bitte um Rückruf wegen Angebotsprozess."
+  ],
+  [
+   "AN-2026-014",
+   "Jörg",
+   "Möller",
+   "Mühlbach Druckerei GmbH",
+   "JOERGMOELLER@MUEHLBACH-DRUCK.EXAMPLE",
+   "+49 (0)711 896 7840",
+   "2026-03-09",
+   "Frage zu DSGVO bei automatisierten Newslettern."
+  ],
+  [
+   "AN-2026-015",
+   "Heike",
+   "Sommer",
+   "Feldweg Bio-Hofladen",
+   "info@feldweg-bio.example",
+   "0335094349",
+   "2026-10-30",
+   "Können Sie uns beim Onboarding neuer Mitarbeitender helfen?"
+  ],
+  [
+   "AN-2026-016",
+   "Björn",
+   "Kühn",
+   "",
+   "bjoern.kuehn@posteo.example",
+   "",
+   "2026-04-11",
+   "Können Sie uns beim Onboarding neuer Mitarbeitender helfen?"
+  ],
+  [
+   "AN-2026-017",
+   "Nina",
+   "Schulz",
+   "Mühlbach Druckerei GmbH",
+   "n.schulz@muehlbach-druck.example",
+   "0049 711 3092548",
+   "2026-04-14",
+   "Bitte um Rückruf wegen Angebotsprozess."
+  ],
+  [
+   "AN-2026-018",
+   "Katrin",
+   "Hartmann",
+   "Pixelgarten Agentur GmbH",
+   "katrinhartmann​@pixelgarten.example",
+   "0302335223",
+   "2026-05-09",
+   "Können Sie uns beim Onboarding neuer Mitarbeitender helfen?"
+  ],
+  [
+   "AN-2026-019",
+   "Uwe",
+   "Sommer",
+   "Ostwind Solar GmbH",
+   "uwe.sommer@ostwind-solar.example",
+   "0381-690-8154",
+   "2026-09-25",
+   "Wir möchten unsere Rechnungsfreigabe automatisieren."
+  ],
+  [
+   "AN-2026-020",
+   "Markus",
+   "Lehmann",
+   "Quadratmeter Immobilien GmbH",
+   "MARKUSLEHMANN@QUADRATMETER.EXAMPLE",
+   "+49 221 2343956",
+   "2026-07-24",
+   "Wir suchen Unterstützung bei der Datenpflege im CRM."
+  ],
+  [
+   "AN-2026-021",
+   "Carina",
+   "Berger",
+   "Ostwind Solar GmbH",
+   "carinaberger@ostwind-solar.example",
+   "+49 381 6751837",
+   "2026-06-28",
+   "Können Sie uns beim Onboarding neuer Mitarbeitender helfen?"
+  ],
+  [
+   "AN-2026-022",
+   "Ralf",
+   "Jäger",
+   "",
+   "ralf.jaeger@mail.example",
+   "0049 177 4074239",
+   "2026-07-15",
+   "Frage zu DSGVO bei automatisierten Newslettern."
+  ],
+  [
+   "AN-2026-023",
+   "Stefan",
+   "Richter",
+   "Havelkontor Logistik GmbH",
+   "stefan.richter@havelkontor.example",
+   "0331 2635539",
+   "2026-07-26",
+   "Wie läuft ein Prozess-Workshop bei Ihnen ab?"
+  ],
+  [
+   "AN-2026-024",
+   "Jan",
+   "Schäfer",
+   "Sternwarte Kita gGmbH",
+   "jan.schaefer@sternwarte-kita.example",
+   "030-736-8118",
+   "2026-06-20",
+   "Wir möchten unsere Rechnungsfreigabe automatisieren."
+  ],
+  [
+   "AN-2026-025",
+   "Greta",
+   "Weber",
+   "Ostwind Solar GmbH",
+   "Gretaweber@ostwind-solar.example",
+   "0049 381 5947117",
+   "2026-03-19",
+   "Interesse an einem Erstgespräch zu n8n."
+  ],
+  [
+   "AN-2026-026",
+   "Felix",
+   "Fuchs",
+   "Löwenzahn Zahnarztpraxis",
+   "felixfuchs@loewenzahn-praxis.example ",
+   "0049 30 9256844",
+   "2026-01-23",
+   "Wir möchten unsere Rechnungsfreigabe automatisieren."
+  ],
+  [
+   "AN-2026-027",
+   "Merle",
+   "Weiß",
+   "Nordlicht Steuerberatung PartG",
+   "merleweiss@nordlicht-stb.example",
+   "0402806472",
+   "2026-03-15",
+   "Wir suchen Unterstützung bei der Datenpflege im CRM."
+  ],
+  [
+   "AN-2026-028",
+   "Philipp",
+   "Dietrich",
+   "Havelkontor Logistik GmbH",
+   "philipp.dietrich@havelkontor.example",
+   "0331/4590365",
+   "2026-08-21",
+   "Bitte um Rückruf wegen Angebotsprozess."
+  ],
+  [
+   "AN-2026-029",
+   "Felix",
+   "Stein",
+   "Ziegelrot Architekten PartGmbB",
+   "f.stein@ziegelrot.example",
+   "030/9060709",
+   "2026-05-20",
+   "Wir möchten unsere Rechnungsfreigabe automatisieren."
+  ],
+  [
+   "AN-2026-030",
+   "Michael",
+   "Richter",
+   "Pixelgarten Agentur GmbH",
+   "michael.richter@pixelgarten.example",
+   "0049 30 8140484",
+   "2026-04-07",
+   "Wie läuft ein Prozess-Workshop bei Ihnen ab?"
+  ],
+  [
+   "AN-2026-031",
+   "Jonas",
+   "Wolf",
+   "Datenhafen IT-Service GmbH",
+   "jonas.wolf@datenhafen.example",
+   "040/5862032",
+   "2026-07-13",
+   "Bitte um Rückruf wegen Angebotsprozess."
+  ],
+  [
+   "AN-2026-032",
+   "Katrin",
+   "Hansen",
+   "Havelkontor Logistik GmbH",
+   "katrinhansen@havelkontor.example",
+   "0331-229-0593",
+   "2026-09-29",
+   "Wie läuft ein Prozess-Workshop bei Ihnen ab?"
+  ],
+  [
+   "AN-2026-033",
+   "Anja",
+   "Wolf",
+   "Rheinblick Personalservice GmbH",
+   "anjawolf@rheinblick-ps.example",
+   "",
+   "2026-10-23",
+   "Wir suchen Unterstützung bei der Datenpflege im CRM."
+  ],
+  [
+   "AN-2026-034",
+   "Svenja",
+   "Krause",
+   "Ostwind Solar GmbH",
+   "svenja.krause@ostwind-solar.example ",
+   "",
+   "2026-07-09",
+   "Wir möchten unsere Rechnungsfreigabe automatisieren."
+  ],
+  [
+   "AN-2026-035",
+   "Timo",
+   "Schäfer",
+   "Kiezrad Berlin UG",
+   "timoschaefer@kiezrad.example ",
+   "+49 (0)30 589 5750",
+   "2026-04-30",
+   "Frage zu DSGVO bei automatisierten Newslettern."
+  ],
+  [
+   "AN-2026-036",
+   "Stefan",
+   "Schäfer",
+   "Kiezrad Berlin UG",
+   "stefan.schaefer@kiezrad.example",
+   "0049 30 4654454",
+   "2026-07-17",
+   "Wir möchten unsere Rechnungsfreigabe automatisieren."
+  ],
+  [
+   "AN-2026-037",
+   "Michael",
+   "Yilmaz",
+   "",
+   "michaelyilmaz@web.example",
+   "0049 151 4691269",
+   "2026-01-14",
+   "Wie läuft ein Prozess-Workshop bei Ihnen ab?"
+  ],
+  [
+   "AN-2026-038",
+   "Michael",
+   "Lehmann",
+   "Brückner Elektrotechnik GmbH",
+   "MICHAEL.LEHMANN@BRUECKNER-ET.EXAMPLE",
+   "0341/3075518",
+   "2026-03-28",
+   "Bitte um Rückruf wegen Angebotsprozess."
+  ],
+  [
+   "AN-2026-039",
+   "Felix",
+   "Hartmann",
+   "Lindgrün Pflegedienst gGmbH",
+   "felix.hartmann@lindgruen-pflege.example",
+   "0049 30 2492512",
+   "2026-01-22",
+   "Wir möchten unsere Rechnungsfreigabe automatisieren."
+  ],
+  [
+   "AN-2026-040",
+   "Karin",
+   "Seidel",
+   "Havelkontor Logistik GmbH",
+   "KARIN.SEIDEL@HAVELKONTOR.EXAMPLE",
+   "+49 (0)331 646 5353",
+   "2026-06-18",
+   "Frage zu DSGVO bei automatisierten Newslettern."
+  ],
+  [
+   "AN-2026-041",
+   "Markus",
+   "Albrecht",
+   "Mühlbach Druckerei GmbH",
+   "markus.albrecht@muehlbach-druck.example",
+   "0711-540-9179",
+   "2026-03-01",
+   "Interesse an einem Erstgespräch zu n8n."
+  ],
+  [
+   "AN-2026-042",
+   "Leon",
+   "Berger",
+   "Datenhafen IT-Service GmbH",
+   "l.berger@datenhafen.example",
+   "",
+   "2026-08-01",
+   "Wir möchten unsere Rechnungsfreigabe automatisieren."
+  ],
+  [
+   "AN-2026-043",
+   "Philipp",
+   "Graf",
+   "Brückner Elektrotechnik GmbH",
+   "PHILIPP.GRAF@BRUECKNER-ET.EXAMPLE",
+   "03414368258",
+   "2026-04-07",
+   "Wir suchen Unterstützung bei der Datenpflege im CRM."
+  ],
+  [
+   "AN-2026-044",
+   "Bettina",
+   "Hoffmann",
+   "",
+   "bettina.hoffmann@gmx.example",
+   "01609515708",
+   "2026-07-02",
+   "Wir suchen Unterstützung bei der Datenpflege im CRM."
+  ],
+  [
+   "AN-2026-045",
+   "Klaus",
+   "Jäger",
+   "Nordlicht Steuerberatung PartG",
+   "klaus.jaeger@nordlicht-stb.example ",
+   "0049 40 4943793",
+   "2026-08-23",
+   "Wir möchten unsere Rechnungsfreigabe automatisieren."
+  ]
+ ],
+ "Webinar": [
+  [
+   "Teilnehmer",
+   "E-Mail-Adresse",
+   "Unternehmen",
+   "Anmeldedatum",
+   "Teilgenommen"
+  ],
+  [
+   "Elif Peters",
+   "elif.peters@brueckner-et.example",
+   "Brückner Elektrotechnik GmbH",
+   {
+    "$date": "2026-09-13T10:30:00"
+   },
+   "ja"
+  ],
+  [
+   "Katrin Hartmann",
+   "katrinhartmann@pixelgarten.example",
+   "Pixelgarten Agentur GmbH",
+   {
+    "$date": "2026-09-01T08:30:00"
+   },
+   "nein"
+  ],
+  [
+   "Hartmann, Felix",
+   "felix.hartmann@lindgruen-pflege.example",
+   "Lindgrün Pflegedienst gGmbH",
+   {
+    "$date": "2026-09-18T10:30:00"
+   },
+   "nein"
+  ],
+  [
+   "Graf, Doreen",
+   "d.graf@web.example",
+   "",
+   {
+    "$date": "2026-09-10T21:00:00"
+   },
+   "nein"
+  ],
+  [
+   "Jürgen Becker",
+   "juergen.becker@havelkontor.example",
+   "Havelkontor Logistik GmbH",
+   {
+    "$date": "2026-09-22T20:30:00"
+   },
+   "ja"
+  ],
+  [
+   "Brandt, Tobias",
+   "tobiasbrandt@brueckner-et.example",
+   "Brückner Elektrotechnik GmbH",
+   {
+    "$date": "2026-09-14T21:30:00"
+   },
+   "nein"
+  ],
+  [
+   "Uwe Lorenz",
+   "uwe.lorenz@kupferkessel.example",
+   "Kupferkessel Brauerei GmbH",
+   46280,
+   "ja"
+  ],
+  [
+   "DANIEL SIMON",
+   "Daniel.Simon@gmx.example",
+   "",
+   {
+    "$date": "2026-09-03T11:45:00"
+   },
+   "ja"
+  ],
+  [
+   "Philipp Dietrich",
+   "philipp.dietrich@havelkontor.example",
+   "Havelkontor Logistik GmbH",
+   {
+    "$date": "2026-09-11T17:30:00"
+   },
+   "ja"
+  ],
+  [
+   "OLE BRAUN",
+   "Ole.Braun@datenhafen.example",
+   "Datenhafen IT-Service GmbH",
+   {
+    "$date": "2026-09-20T11:15:00"
+   },
+   "ja"
+  ],
+  [
+   "florian brinkmann",
+   "florian.brinkmann@hafenmeister.example",
+   "Hafenmeister Gastro GmbH",
+   {
+    "$date": "2026-09-16T18:30:00"
+   },
+   "ja"
+  ],
+  [
+   "Leon Hoffmann",
+   "Leon.Hoffmann@muehlbach-druck.example",
+   "Mühlbach Druckerei GmbH",
+   {
+    "$date": "2026-09-04T12:15:00"
+   },
+   "ja"
+  ],
+  [
+   "Thiele, Tanja",
+   "tanja.thiele@rheinblick-ps.example",
+   "Rheinblick Personalservice GmbH",
+   {
+    "$date": "2026-09-23T10:45:00"
+   },
+   "ja"
+  ],
+  [
+   "Fuchs, Doreen",
+   "doreenfuchs@lindgruen-pflege.example",
+   "Lindgrün Pflegedienst gGmbH",
+   {
+    "$date": "2026-09-09T18:00:00"
+   },
+   "nein"
+  ],
+  [
+   "ANJA WOLF",
+   "anjawolf@rheinblick-ps.example",
+   "Rheinblick Personalservice GmbH",
+   {
+    "$date": "2026-09-06T20:15:00"
+   },
+   "nein"
+  ],
+  [
+   "Felix Stein",
+   "f.stein@ziegelrot.example",
+   "Ziegelrot Architekten PartGmbB",
+   {
+    "$date": "2026-09-04T19:15:00"
+   },
+   "ja"
+  ],
+  [
+   "Anna Lena Vogt",
+   "annalena.vogt@sternwarte-kita.example",
+   "Sternwarte Kita gGmbH",
+   {
+    "$date": "2026-09-22T15:45:00"
+   },
+   "ja"
+  ],
+  [
+   "Sandra Richter",
+   "sandrarichter@kupferkessel.example",
+   "Kupferkessel Brauerei GmbH",
+   {
+    "$date": "2026-09-11T19:00:00"
+   },
+   "ja"
+  ],
+  [
+   "Julia Neumann",
+   "j.neumann@kranich-makler.example",
+   "Kranich Versicherungsmakler GmbH",
+   {
+    "$date": "2026-09-13T18:45:00"
+   },
+   "ja"
+  ],
+  [
+   "Ralf Kaiser",
+   "r.kaiser@nordlicht-stb.example",
+   "Nordlicht Steuerberatung PartG",
+   {
+    "$date": "2026-09-10T17:45:00"
+   },
+   "nein"
+  ],
+  [
+   "Dirk Pohl",
+   "dirk.pohl@t-online.example",
+   "",
+   {
+    "$date": "2026-09-18T16:00:00"
+   },
+   "ja"
+  ],
+  [
+   "Jäger, Maren",
+   "marenjaeger@lindgruen-pflege.example",
+   "Lindgrün Pflegedienst gGmbH",
+   {
+    "$date": "2026-09-04T14:00:00"
+   },
+   "ja"
+  ],
+  [
+   "Jörg Simon",
+   "j.simon@web.example",
+   "",
+   {
+    "$date": "2026-09-17T14:45:00"
+   },
+   "ja"
+  ],
+  [
+   "Leon Groß",
+   "leon.gross@spreeblick-hv.example",
+   "Spreeblick Hausverwaltung GmbH",
+   {
+    "$date": "2026-09-19T21:00:00"
+   },
+   "ja"
+  ],
+  [
+   "Anna Brandt",
+   "anna.brandt@ziegelrot.example",
+   "Ziegelrot Architekten PartGmbB",
+   {
+    "$date": "2026-09-15T21:45:00"
+   },
+   "ja"
+  ],
+  [
+   "Andreas Yilmaz",
+   "andreas.yilmaz@feldweg-bio.example",
+   "Feldweg Bio-Hofladen",
+   {
+    "$date": "2026-09-10T14:45:00"
+   },
+   "ja"
+  ],
+  [
+   "Wagner, Ralf",
+   "R.Wagner@web.example",
+   "",
+   {
+    "$date": "2026-09-21T21:15:00"
+   },
+   "ja"
+  ],
+  [
+   "Seidel, Bettina",
+   "bettina.seidel@alpenweit.example",
+   "Alpenweit Reisen GmbH",
+   {
+    "$date": "2026-09-09T13:15:00"
+   },
+   "ja"
+  ],
+  [
+   "Philipp Simon",
+   "philipp.simon@t-online.example",
+   "",
+   {
+    "$date": "2026-09-17T14:30:00"
+   },
+   "ja"
+  ],
+  [
+   "Andreas Kaiser",
+   "Andreaskaiser@ziegelrot.example",
+   "Ziegelrot Architekten PartGmbB",
+   {
+    "$date": "2026-09-22T12:15:00"
+   },
+   "nein"
+  ],
+  [
+   "Henrik von der Heide",
+   "h.vonderheide@ziegelrot.example",
+   "Ziegelrot Architekten PartGmbB",
+   {
+    "$date": "2026-09-21T07:45:00"
+   },
+   "nein"
+  ],
+  [
+   "PATRICK BRAUN",
+   "p.braun@spreeblick-hv.example",
+   "Spreeblick Hausverwaltung GmbH",
+   {
+    "$date": "2026-09-09T10:30:00"
+   },
+   "ja"
+  ],
+  [
+   "Stefan Pohl",
+   "Stefan.Pohl@pixelgarten.example",
+   "Pixelgarten Agentur GmbH",
+   {
+    "$date": "2026-09-22T19:00:00"
+   },
+   "nein"
+  ],
+  [
+   "Christina Braun",
+   "christina.braun@gmx.example",
+   "",
+   {
+    "$date": "2026-09-16T14:15:00"
+   },
+   "nein"
+  ],
+  [
+   "Karin Kühn",
+   "Karin.Kuehn@spreeblick-hv.example",
+   "Spreeblick Hausverwaltung GmbH",
+   {
+    "$date": "2026-09-03T10:15:00"
+   },
+   "ja"
+  ],
+  [
+   "franziska meyer-albrecht",
+   "f.meyer-albrecht@rheinblick-ps.example",
+   "Rheinblick Personalservice GmbH",
+   {
+    "$date": "2026-09-02T19:30:00"
+   },
+   "ja"
+  ],
+  [
+   "Bettina Krause",
+   "bettina.krause@lindgruen-pflege.example",
+   "Lindgrün Pflegedienst gGmbH",
+   {
+    "$date": "2026-09-07T14:15:00"
+   },
+   "ja"
+  ],
+  [
+   "Katrin Hansen",
+   "katrinhansen@havelkontor.example",
+   "Havelkontor Logistik GmbH",
+   {
+    "$date": "2026-09-02T18:15:00"
+   },
+   "ja"
+  ],
+  [
+   "Lange, Stefan",
+   "stefan.lange@kranich-makler.example",
+   "Kranich Versicherungsmakler GmbH",
+   {
+    "$date": "2026-09-12T21:30:00"
+   },
+   "ja"
+  ],
+  [
+   "Ole Pohl",
+   "olepohl@havelkontor.example",
+   "Havelkontor Logistik GmbH",
+   {
+    "$date": "2026-09-17T08:30:00"
+   },
+   "nein"
+  ]
+ ],
+ "Messe": [
+  [
+   "Name",
+   "Firma",
+   "Mail",
+   "Tel.",
+   "Notiz",
+   "Datum"
+  ],
+  [
+   "YVONNE GRAF",
+   "",
+   "y.graf@web.example",
+   "01717527361",
+   "kennt n8n",
+   "08.10.2026"
+  ],
+  [
+   "Dr. Klaus Berg",
+   "Löwenzahn Zahnarztpraxis",
+   "dr.berg@loewenzahn-praxis.example",
+   "030/3537857",
+   "",
+   "08.10.2026"
+  ],
+  [
+   "Stefan Richter",
+   "Havelkontor Logistik",
+   "",
+   "0049 331 2635539",
+   "will Angebot",
+   "08.10.2026"
+  ],
+  [
+   "Yvonne Vogt",
+   "",
+   "yvonne.vogt@web.example",
+   "",
+   "",
+   "08.10.2026"
+  ],
+  [
+   "Tobias Brandt",
+   "Brückner Elektrotechnik GmbH",
+   "TOBIASBRANDT@BRUECKNER-ET.EXAMPLE",
+   "",
+   "Rückruf KW 44",
+   "07.10.2026"
+  ],
+  [
+   "Ralf Jäger",
+   "",
+   "ralf.jaeger@mail.example",
+   "0177/4074239",
+   "Visitenkarte",
+   "07.10.2026"
+  ],
+  [
+   "Jürgen Roth",
+   "",
+   "j.roth@gmx.example",
+   "0049 160 6484291",
+   "sehr interessiert",
+   "07.10.2026"
+  ],
+  [
+   "LENA BRAUN",
+   "Alpenweit Reisen GmbH",
+   "lena.braun@alpenweit.example",
+   "089-799-2311",
+   "nur Infomaterial",
+   "07.10.2026"
+  ],
+  [
+   "moritz weber",
+   "",
+   "moritzweber@web.example",
+   "0049 151 5660497",
+   "Workshop?",
+   "07.10.2026"
+  ],
+  [
+   "timo brinkmann",
+   "Spreeblick Hausverwaltung GmbH",
+   "timobrinkmann@spreeblick-hv.example",
+   "+49 (0)30 615 5543",
+   "",
+   "8.10.26"
+  ],
+  [
+   "jürgen arnold",
+   "Nordlicht Steuerberatung PartG",
+   " j.arnold@nordlicht-stb.example ",
+   "",
+   "Workshop?",
+   "07.10.2026"
+  ],
+  [
+   "Joerg Moeller",
+   "Mühlbach Druckerei GmbH",
+   "JOERGMOELLER@MUEHLBACH-DRUCK.EXAMPLE",
+   "0711 8967840",
+   "",
+   "8.10.26"
+  ],
+  [
+   "Daniel Wolf",
+   "Havelkontor Logistik GmbH",
+   "daniel.wolf@havelkontor.example",
+   "0331/4934018",
+   "kennt n8n",
+   "08.10.2026"
+  ],
+  [
+   "Katrin Hansen",
+   "Havelkontor Logistik GmbH",
+   "katrinhansen@havelkontor.example",
+   "+49 331 2290593",
+   "nur Infomaterial",
+   "8.10.26"
+  ],
+  [
+   "MERLE SCHMITT",
+   "Rheinblick Personalservice GmbH",
+   " merle.schmitt@rheinblick-ps.example ",
+   "0228-200-9247",
+   "nur Infomaterial",
+   "08.10.2026"
+  ],
+  [
+   "Jonas Wolf",
+   "Datenhafen IT-Service GmbH",
+   "j.wolf@datenhafen.example",
+   "+49 (0)40 586 2032",
+   "kennt n8n",
+   "7.10.26"
+  ],
+  [
+   "LISA BRANDT",
+   "",
+   "lisa.brandt@web",
+   "",
+   "",
+   "07.10.2026"
+  ],
+  [
+   "TOBIAS ENGEL",
+   "Kiezrad Berlin UG",
+   "tobias.engel(at)kiezrad.example",
+   "",
+   "will Angebot",
+   "07.10.2026"
+  ],
+  [
+   "Petra Engel",
+   "Kranich Versicherungsmakler GmbH",
+   "petra.engel@kranich-makler.example",
+   "0693207070",
+   "will Angebot",
+   "8.10.26"
+  ],
+  [
+   "Daniel Simon",
+   "",
+   "daniel.simon@gmx.example",
+   "0171-969-1963",
+   "",
+   "07.10.2026"
+  ],
+  [
+   "Gesa Thiele",
+   "",
+   " g.thiele@web.example ",
+   "siehe Website",
+   "",
+   "08.10.2026"
+  ],
+  [
+   "Ines Lorenz",
+   "Löwenzahn Zahnarztpraxis",
+   " i.lorenz@loewenzahn-praxis.example ",
+   "030/2774832",
+   "will Angebot",
+   "07.10.2026"
+  ],
+  [
+   "Gesa Groß",
+   "Datenhafen IT-Service GmbH",
+   "gesagross@datenhafen.example",
+   "",
+   "",
+   "08.10.2026"
+  ],
+  [
+   "Bettina Roth",
+   "Tannenhof Möbelwerkstatt",
+   "b.roth@tannenhof-moebel.example",
+   "07613736154",
+   "Visitenkarte",
+   "08.10.2026"
+  ],
+  [
+   "Krause",
+   "Ostwind Solar GmbH",
+   "svenja.krause@ostwind-solar.example",
+   "+49 (0)381 493 7155",
+   "",
+   "07.10.2026"
+  ],
+  [
+   "Ralf Kaiser",
+   "Nordlicht Steuerberatung PartG",
+   "r.kaiser @ nordlicht-stb.example",
+   "+49 40 6108451",
+   "will Angebot",
+   "07.10.2026"
+  ],
+  [
+   "Jürgen Becker",
+   "Havelkontor Logistik",
+   " juergen.becker@havelkontor.example ",
+   "+49 331 2581182",
+   "",
+   "8.10.26"
+  ],
+  [
+   "Karin Krüger",
+   "Rheinblick Personalservice",
+   "karin.krueger@rheinblick-ps.example",
+   "0049 228 4662689",
+   "kennt n8n",
+   "7.10.26"
+  ],
+  [
+   "Björn Kühn",
+   "",
+   "bjoern.kuehn@posteo.example",
+   "",
+   "kennt n8n",
+   "8.10.26"
+  ],
+  [
+   "Karin Braun",
+   "Kranich Versicherungsmakler",
+   "karin.braun@kranich-makler.example",
+   "069-803-6904",
+   "Workshop?",
+   "08.10.2026"
+  ],
+  [
+   "Karin Peters",
+   "",
+   "karin.peters@t-online.example",
+   "0151 3675486",
+   "Rückruf KW 44",
+   "07.10.2026"
+  ],
+  [
+   "Markus Lehmann",
+   "Quadratmeter Immobilien GmbH",
+   "MARKUSLEHMANN@QUADRATMETER.EXAMPLE",
+   "+49 (0)221 234 3956",
+   "kennt n8n",
+   "07.10.2026"
+  ],
+  [
+   "PETRA  SCHMITT",
+   "Spreeblick Hausverwaltung",
+   "petra.schmitt@spreeblick-hv.example",
+   "+49 (0)30 476 2668",
+   "Workshop?",
+   "08.10.2026"
+  ],
+  [
+   "Franziska Weber",
+   "",
+   "FRANZISKAWEBER@WEB.EXAMPLE",
+   "",
+   "will Angebot",
+   "07.10.2026"
+  ],
+  [
+   "Markus Ludwig",
+   "Nordlicht Steuerberatung PartG",
+   "M.LUDWIG@NORDLICHT-STB.EXAMPLE",
+   "+49 (0)40 549 0425",
+   "nur Infomaterial",
+   "07.10.2026"
+  ]
+ ],
+ "Newsletter": [
+  [
+   "E-Mail",
+   "Vorname",
+   "Angemeldet am",
+   "Status"
+  ],
+  [
+   "maltefischer@web.example",
+   "Malte",
+   "2025-12-10 15:31",
+   "aktiv"
+  ],
+  [
+   "mehmetguenther@feldweg-bio.example",
+   "Mehmet",
+   "2026-10-06 11:18",
+   "abgemeldet"
+  ],
+  [
+   "daniel.simon@gmx.example",
+   "Daniel",
+   "2026-04-16 17:06",
+   "aktiv"
+  ],
+  [
+   "j.arnold@nordlicht-stb.example",
+   "",
+   "2026-01-23 07:39",
+   "aktiv"
+  ],
+  [
+   "leon.lehmann@kiezrad.example",
+   "Leon",
+   "2026-06-30 20:43",
+   "aktiv"
+  ],
+  [
+   "juergenwolf@quadratmeter.example",
+   "Jürgen",
+   "2026-05-16 11:00",
+   "aktiv"
+  ],
+  [
+   "philipp.simon@t-online.example",
+   "Philipp",
+   "2026-04-27 06:21",
+   "aktiv"
+  ],
+  [
+   "ANNA.WOLF@GMX.EXAMPLE",
+   "Anna",
+   "2026-03-12 21:16",
+   "aktiv"
+  ],
+  [
+   "katrinhansen@havelkontor.example",
+   "Katrin",
+   "2026-01-27 16:29",
+   "aktiv"
+  ],
+  [
+   " Jan.Schaefer@Sternwarte-Kita.Example ",
+   "Jan",
+   "2026-09-04 12:20",
+   "aktiv"
+  ],
+  [
+   "elif.moeller@feldweg-bio.example",
+   "Elif",
+   "2026-10-06 10:09",
+   "aktiv"
+  ],
+  [
+   "k.berger@alpenweit.example",
+   "Katrin",
+   "2026-05-29 21:08",
+   "aktiv"
+  ],
+  [
+   "gesagross@datenhafen.example",
+   "Gesa",
+   "2026-02-25 09:05",
+   "aktiv"
+  ],
+  [
+   "k.schulz@posteo.example",
+   "",
+   "2026-07-24 07:08",
+   "aktiv"
+  ],
+  [
+   "sandrarichter@kupferkessel.example",
+   "Sandra",
+   "2026-07-20 13:48",
+   "aktiv"
+  ],
+  [
+   "elif.peters@brueckner-et.example",
+   "Elif",
+   "2025-12-27 23:32",
+   "aktiv"
+  ],
+  [
+   "ralf.roth@pixelgarten.example",
+   "Ralf",
+   "2026-05-18 22:07",
+   "aktiv"
+  ],
+  [
+   "k.pohl@spreeblick-hv.example",
+   "Kai",
+   "2026-03-15 18:22",
+   "abgemeldet"
+  ],
+  [
+   "merleweiss@nordlicht-stb.example",
+   "",
+   "2026-03-29 15:47",
+   "aktiv"
+  ],
+  [
+   "merle.hansen@gmx.example",
+   "Merle",
+   "2026-06-25 10:14",
+   "aktiv"
+  ],
+  [
+   "dirk.engel@tannenhof-moebel.example",
+   "Dirk",
+   "2026-01-16 23:56",
+   "aktiv"
+  ],
+  [
+   "thomas.lorenz@spreeblick-hv.example",
+   "Thomas",
+   "2026-04-26 20:10",
+   "aktiv"
+  ],
+  [
+   "petrathiele@muehlbach-druck.example",
+   "",
+   "2026-07-28 22:15",
+   "aktiv"
+  ],
+  [
+   "andreasseidel@loewenzahn-praxis.example",
+   "Andreas",
+   "2026-09-13 06:16",
+   "aktiv"
+  ],
+  [
+   "patrick.koehler@kranich-makler.example",
+   "Patrick",
+   "2026-08-06 23:12",
+   "aktiv"
+  ],
+  [
+   "timoschaefer@kiezrad.example",
+   "Timo",
+   "2026-09-11 22:26",
+   "aktiv"
+  ],
+  [
+   "kai.baumann@datenhafen.example",
+   "Kai",
+   "2026-03-11 10:37",
+   "abgemeldet"
+  ],
+  [
+   "karin.neumann@rheinblick-ps.example",
+   "Karin",
+   "2025-12-08 09:37",
+   "aktiv"
+  ],
+  [
+   "u.albrecht@hafenmeister.example",
+   "",
+   "2026-10-29 08:28",
+   "aktiv"
+  ],
+  [
+   "doreenfuchs@lindgruen-pflege.example",
+   "",
+   "2025-11-24 13:00",
+   "abgemeldet"
+  ]
+ ],
+ "Sperrliste": [
+  [
+   "E-Mail",
+   "Name",
+   "Widerspruch am",
+   "Kanal"
+  ],
+  [
+   "markuslehmann@quadratmeter.example",
+   "Markus Lehmann",
+   "2026-06-02",
+   "E-Mail an datenschutz@"
+  ],
+  [
+   "r.kaiser@nordlicht-stb.example",
+   "Ralf Kaiser",
+   "2026-08-19",
+   "Telefon"
+  ],
+  [
+   "jan.schaefer@sternwarte-kita.example",
+   "Jan Schäfer",
+   "2026-03-11",
+   "Formular"
+  ],
+  [
+   "alt.kunde@gmx.example",
+   "",
+   "2025-12-01",
+   "Brief"
+  ]
+ ]
+}

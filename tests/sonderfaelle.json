@@ -1,0 +1,283 @@
+[
+  {
+    "fall": "S01",
+    "beschreibung": "Unsichtbares Zeichen (Zero-Width-Space) in der E-Mail – trotzdem als Duplikat erkannt",
+    "fundstelle": "Kontaktformular-19",
+    "erwartet": "Sauber",
+    "felder": {
+      "email": "katrinhartmann@pixelgarten.example",
+      "anzahl_quellen": 2
+    }
+  },
+  {
+    "fall": "S01",
+    "beschreibung": "Unsichtbares Zeichen (Zero-Width-Space) in der E-Mail – trotzdem als Duplikat erkannt",
+    "fundstelle": "Webinar-3",
+    "erwartet": "Sauber",
+    "felder": {
+      "email": "katrinhartmann@pixelgarten.example",
+      "anzahl_quellen": 2
+    }
+  },
+  {
+    "fall": "S02",
+    "beschreibung": "Gleiche E-Mail, anderer Nachname (Krüger/Neumann)",
+    "fundstelle": "Kontaktformular-5",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Nachname weicht ab"
+  },
+  {
+    "fall": "S02",
+    "beschreibung": "Gleiche E-Mail, anderer Nachname (Krüger/Neumann)",
+    "fundstelle": "Webinar-20",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Nachname weicht ab"
+  },
+  {
+    "fall": "S03",
+    "beschreibung": "Joerg Moeller (Messe) = Jörg Möller (Formular) – kein Konflikt",
+    "fundstelle": "Kontaktformular-15",
+    "erwartet": "Sauber",
+    "felder": {
+      "vorname": "Jörg",
+      "nachname": "Möller"
+    }
+  },
+  {
+    "fall": "S03",
+    "beschreibung": "Joerg Moeller (Messe) = Jörg Möller (Formular) – kein Konflikt",
+    "fundstelle": "Messe-13",
+    "erwartet": "Sauber",
+    "felder": {
+      "vorname": "Jörg",
+      "nachname": "Möller"
+    }
+  },
+  {
+    "fall": "S04",
+    "beschreibung": "Gleicher Name + Firma, zwei E-Mails",
+    "fundstelle": "Kontaktformular-32",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Mögliches Duplikat"
+  },
+  {
+    "fall": "S04",
+    "beschreibung": "Gleicher Name + Firma, zwei E-Mails",
+    "fundstelle": "Messe-17",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Mögliches Duplikat"
+  },
+  {
+    "fall": "S05",
+    "beschreibung": "Rollenadresse info@",
+    "fundstelle": "Kontaktformular-16",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Rollenadresse"
+  },
+  {
+    "fall": "S06",
+    "beschreibung": "(at) statt @",
+    "fundstelle": "Messe-19",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "E-Mail ungültig"
+  },
+  {
+    "fall": "S07",
+    "beschreibung": "Domain ohne Endung",
+    "fundstelle": "Messe-18",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "E-Mail ungültig"
+  },
+  {
+    "fall": "S08",
+    "beschreibung": "Messe ohne E-Mail, Person bereits sauber vorhanden",
+    "fundstelle": "Kontaktformular-24",
+    "erwartet": "Sauber"
+  },
+  {
+    "fall": "S08",
+    "beschreibung": "Messe ohne E-Mail, Person bereits sauber vorhanden",
+    "fundstelle": "Messe-4",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "E-Mail fehlt; Mögliches Duplikat"
+  },
+  {
+    "fall": "S09",
+    "beschreibung": "Sperrliste, in zwei Quellen (einmal GROSS) – Anfrage NACH dem Widerspruch geht auf Prüfen",
+    "fundstelle": "Kontaktformular-21",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Gesperrt, aber neue Anfrage"
+  },
+  {
+    "fall": "S09",
+    "beschreibung": "Sperrliste, in zwei Quellen (einmal GROSS)",
+    "fundstelle": "Messe-33",
+    "erwartet": "gesperrt"
+  },
+  {
+    "fall": "S10",
+    "beschreibung": "Newsletter abgemeldet, auch im Webinar",
+    "fundstelle": "Webinar-15",
+    "erwartet": "gesperrt"
+  },
+  {
+    "fall": "S10",
+    "beschreibung": "Newsletter abgemeldet, auch im Webinar",
+    "fundstelle": "Newsletter-31",
+    "erwartet": "gesperrt"
+  },
+  {
+    "fall": "S11",
+    "beschreibung": "Gesperrte Person mit kaputter E-Mail in der Messe",
+    "fundstelle": "Webinar-21",
+    "erwartet": "gesperrt"
+  },
+  {
+    "fall": "S11",
+    "beschreibung": "Gesperrte Person mit kaputter E-Mail in der Messe",
+    "fundstelle": "Messe-27",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "E-Mail ungültig; Name auf Sperrliste"
+  },
+  {
+    "fall": "S12",
+    "beschreibung": "Doppelvorname Anna Lena Vogt",
+    "fundstelle": "Webinar-18",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Name nicht eindeutig"
+  },
+  {
+    "fall": "S13",
+    "beschreibung": "Henrik von der Heide – automatisch teilbar",
+    "fundstelle": "Webinar-32",
+    "erwartet": "Sauber",
+    "felder": {
+      "vorname": "Henrik",
+      "nachname": "von der Heide"
+    }
+  },
+  {
+    "fall": "S14",
+    "beschreibung": "Seidel, Bettina – automatisch teilbar",
+    "fundstelle": "Webinar-29",
+    "erwartet": "Sauber",
+    "felder": {
+      "vorname": "Bettina",
+      "nachname": "Seidel"
+    }
+  },
+  {
+    "fall": "S15",
+    "beschreibung": "Dr. Klaus Berg",
+    "fundstelle": "Messe-3",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Titel im Namen"
+  },
+  {
+    "fall": "S16",
+    "beschreibung": "Telefon nicht lesbar (zwei Personen)",
+    "fundstelle": "Kontaktformular-2",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Telefon nicht lesbar"
+  },
+  {
+    "fall": "S16",
+    "beschreibung": "Telefon nicht lesbar (zwei Personen)",
+    "fundstelle": "Messe-22",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Telefon nicht lesbar"
+  },
+  {
+    "fall": "S17",
+    "beschreibung": "Newsletter: ohne Vorname -> Prüfen, mit Vorname ohne Nachname -> Sauber",
+    "fundstelle": "Newsletter-15",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Vorname fehlt"
+  },
+  {
+    "fall": "S17",
+    "beschreibung": "Newsletter: ohne Vorname -> Prüfen, mit Vorname ohne Nachname -> Sauber",
+    "fundstelle": "Newsletter-21",
+    "erwartet": "Sauber"
+  },
+  {
+    "fall": "S18",
+    "beschreibung": "Messe nur Nachname, ergänzt aus Formular",
+    "fundstelle": "Kontaktformular-35",
+    "erwartet": "Sauber",
+    "felder": {
+      "vorname": "Svenja",
+      "nachname": "Krause"
+    }
+  },
+  {
+    "fall": "S18",
+    "beschreibung": "Messe nur Nachname, ergänzt aus Formular",
+    "fundstelle": "Messe-26",
+    "erwartet": "Sauber",
+    "felder": {
+      "vorname": "Svenja",
+      "nachname": "Krause"
+    }
+  },
+  {
+    "fall": "S19",
+    "beschreibung": "Doppelte Formular-Absendung",
+    "fundstelle": "Kontaktformular-9",
+    "erwartet": "Sauber",
+    "felder": {
+      "anzahl_quellen": 2
+    }
+  },
+  {
+    "fall": "S19",
+    "beschreibung": "Doppelte Formular-Absendung",
+    "fundstelle": "Kontaktformular-44",
+    "erwartet": "Sauber",
+    "felder": {
+      "anzahl_quellen": 2
+    }
+  },
+  {
+    "fall": "S20",
+    "beschreibung": "PETRA  SCHMITT – doppeltes Leerzeichen, GROSS",
+    "fundstelle": "Messe-34",
+    "erwartet": "Sauber",
+    "felder": {
+      "vorname": "Petra",
+      "nachname": "Schmitt"
+    }
+  },
+  {
+    "fall": "S21",
+    "beschreibung": "Datum als Excel-Zahl 46280 = 2026-09-15",
+    "fundstelle": "Webinar-8",
+    "erwartet": "Sauber",
+    "felder": {
+      "erster_kontakt": "2026-09-15"
+    }
+  },
+  {
+    "fall": "S22",
+    "beschreibung": "franziska meyer-albrecht – klein mit Bindestrich",
+    "fundstelle": "Webinar-37",
+    "erwartet": "Sauber",
+    "felder": {
+      "vorname": "Franziska",
+      "nachname": "Meyer-Albrecht"
+    }
+  },
+  {
+    "fall": "S23",
+    "beschreibung": "Sperrliste, Newsletter-Adresse mit Leerzeichen und Großbuchstaben – Anfrage NACH dem Widerspruch geht auf Prüfen",
+    "fundstelle": "Kontaktformular-25",
+    "erwartet": "Prüfen",
+    "grund_enthaelt": "Gesperrt, aber neue Anfrage"
+  },
+  {
+    "fall": "S23",
+    "beschreibung": "Sperrliste, Newsletter-Adresse mit Leerzeichen und Großbuchstaben",
+    "fundstelle": "Newsletter-11",
+    "erwartet": "gesperrt"
+  }
+]

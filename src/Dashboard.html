@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<!-- Version 1.2 (2026-11-10): Hinweis „Demo-Projekt mit Modellunternehmen“ -->
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kontaktdaten-Cockpit · SICH Studio</title>
+<style>
+  :root {
+    --bg: #F4F8FB; --card: #FFFFFF; --ink: #0F2A3D; --muted: #5B7083; --line: #E3EBF2;
+    --blue: #2F6FDE; --blue-soft: #E6EFFC; --green: #18A977; --green-soft: #E2F6EE;
+    --grey: #94A3B3; --grey-soft: #EEF2F6;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 15px/1.45 "Inter", "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif; }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 28px 20px 40px; }
+  header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+  .eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--blue); font-weight: 700; }
+  h1 { margin: 2px 0 4px; font-size: 28px; letter-spacing: -.01em; }
+  .sub { color: var(--muted); }
+  .badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px;
+           background: var(--green-soft); color: #0B7A55; font-weight: 700; font-size: 14px; }
+  .badge.fehler { background: #FDECEC; color: #B42318; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: currentColor; }
+  .grid { display: grid; gap: 16px; }
+  .kpis { grid-template-columns: repeat(4, 1fr); }
+  .cols { grid-template-columns: 1.15fr 1fr; margin-top: 16px; }
+  .cols3 { grid-template-columns: 1fr 1fr; margin-top: 16px; align-items: start; }
+  .rechnung { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 14px; }
+  .rechnung td { padding: 9px 0; border-top: 1px solid rgba(15,42,61,.10); }
+  .rechnung td:last-child { text-align: right; font-variant-numeric: tabular-nums; font-weight: 650; }
+  .rechnung tr:last-child td { font-weight: 750; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px;
+          box-shadow: 0 1px 2px rgba(15,42,61,.04); }
+  .kpi .zahl { font-size: 40px; font-weight: 750; letter-spacing: -.02em; line-height: 1.05; }
+  .kpi .zahl small { font-size: 18px; font-weight: 600; color: var(--muted); }
+  .kpi .titel { font-weight: 650; margin-top: 6px; }
+  .kpi .text { color: var(--muted); font-size: 13.5px; margin-top: 2px; }
+  .kpi.gruen { border-top: 4px solid var(--green); }
+  .kpi.blau { border-top: 4px solid var(--blue); }
+  .kpi.grau { border-top: 4px solid var(--grey); }
+  h2 { font-size: 16px; margin: 0 0 2px; }
+  .hinweis { color: var(--muted); font-size: 13.5px; margin: 0 0 14px; }
+  svg text { font-family: inherit; }
+  .zeile { display: grid; grid-template-columns: 150px 1fr 104px; align-items: center; gap: 10px; margin: 9px 0; font-size: 14px; }
+  .zeile.breit { grid-template-columns: 215px 1fr 28px; }
+  .spur { height: 12px; background: var(--grey-soft); border-radius: 999px; overflow: hidden; }
+  .balken { height: 100%; border-radius: 999px; background: var(--blue); }
+  .wert { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+  .wert b { color: var(--ink); }
+  .fakten { list-style: none; margin: 0; padding: 0; }
+  .fakten li { display: grid; grid-template-columns: 54px 1fr; gap: 12px; align-items: baseline; padding: 10px 0; border-top: 1px solid var(--line); }
+  .fakten li:first-child { border-top: 0; padding-top: 2px; }
+  .fakten .n { font-size: 26px; font-weight: 750; color: var(--blue); text-align: right; }
+  .fakten span { color: var(--muted); font-size: 13.5px; display: block; }
+  .zeit { background: linear-gradient(135deg, #EAF3FF 0%, #E4F7EF 100%); border-color: #D5E6F5; }
+  .zeit .gross { font-size: 34px; font-weight: 750; letter-spacing: -.02em; }
+  .zeit .gross span { color: var(--green); }
+  .legende { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-top: 6px; }
+  .legende i { display: inline-block; width: 11px; height: 11px; border-radius: 3px; margin-right: 6px; vertical-align: -1px; }
+  footer { color: var(--muted); font-size: 12.5px; margin-top: 22px; line-height: 1.6; }
+  @media (max-width: 900px) { .kpis { grid-template-columns: repeat(2, 1fr); } .cols, .cols3 { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .kpis { grid-template-columns: 1fr; } .zeile, .zeile.breit { grid-template-columns: 1fr 60px; } .zeile .spur { grid-column: 1 / -1; order: 3; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="eyebrow">SICH Studio · Datenpflege</div>
+      <h1>Kontaktdaten-Cockpit</h1>
+      <div class="sub" id="stand"></div>
+    </div>
+    <div class="badge" id="bilanz"><span class="dot"></span><span></span></div>
+  </header>
+
+  <section class="grid kpis" id="kpis"></section>
+
+  <section class="card" style="margin-top:16px">
+    <h2>Wohin gehen die Zeilen?</h2>
+    <p class="hinweis">Jede Zeile aus den vier Quellen landet genau an einer Stelle. Die Breite der Bänder entspricht der Zeilenzahl.</p>
+    <div id="fluss"></div>
+    <div class="legende">
+      <span><i style="background:var(--green)"></i>Sauber – sofort nutzbar</span>
+      <span><i style="background:var(--blue)"></i>Prüfen – ein Mensch entscheidet</span>
+      <span><i style="background:var(--grey)"></i>Gesperrt – Widerspruch gegen Werbung</span>
+    </div>
+  </section>
+
+  <section class="grid cols">
+    <div class="card">
+      <h2>Welche Quelle macht die meiste Arbeit?</h2>
+      <p class="hinweis">Anteil der Zeilen je Quelle, die ein Mensch prüfen muss.</p>
+      <div id="quellen"></div>
+    </div>
+    <div class="card">
+      <h2>Datenschutz</h2>
+      <p class="hinweis">Wer Nein gesagt hat, bekommt keine Werbung – in keiner Liste.</p>
+      <ul class="fakten" id="dsgvo"></ul>
+    </div>
+  </section>
+
+  <section class="grid cols3">
+    <div class="card">
+      <h2>Warum muss ein Mensch prüfen?</h2>
+      <p class="hinweis">Jeder Datensatz auf der Prüf-Liste hat eine Begründung.</p>
+      <div id="gruende"></div>
+    </div>
+    <div class="card zeit">
+      <h2>Gesparte Zeit je Lauf*</h2>
+      <p class="hinweis">Gegenüber dem Abgleich von Hand.</p>
+      <div class="gross" id="zeit"></div>
+      <p class="hinweis" id="zeitText" style="margin:10px 0 0"></p>
+      <table class="rechnung" id="rechnung"></table>
+    </div>
+  </section>
+
+  <footer id="fuss"></footer>
+</div>
+
+<script>
+// Im Web-App-Betrieb ersetzt Apps Script diesen Block durch die echten Zahlen des letzten Laufs.
+var DATEN = /*DATEN*/{
+  stand: '2026-11-10 12:53',
+  bilanzOk: true,
+  gelesen: 150, sauber: 96, pruefen: 17, gesperrt: 8, zusammengefuehrt: 29,
+  fluss: [ // Quelle, Zeilen nach Sauber / Prüfen / Gesperrt
+    { quelle: 'Kontaktformular', sauber: 39, pruefen: 6, gesperrt: 0 },
+    { quelle: 'Webinar',         sauber: 36, pruefen: 2, gesperrt: 2 },
+    { quelle: 'Messe',           sauber: 27, pruefen: 7, gesperrt: 1 },
+    { quelle: 'Newsletter',      sauber: 22, pruefen: 3, gesperrt: 5 }
+  ],
+  gruende: [
+    ['Vorname fehlt', 3], ['E-Mail ungültig', 3], ['Mögliches Duplikat', 3], ['Gesperrt, aber neue Anfrage', 2],
+    ['Telefon nicht lesbar', 2], ['E-Mail fehlt', 1], ['Name auf Sperrliste', 1], ['Nachname weicht ab', 1],
+    ['Name nicht eindeutig', 1], ['Rollenadresse', 1], ['Titel im Namen', 1]
+  ],
+  nameAufSperrliste: 1, anfragenGerettet: 2,
+  annahmen: { minutenJeZeileVonHand: 2, minutenJePruefDatensatz: 3, stundensatz: 100, wochenstunden: 38 }
+}/*DATEN*/;
+
+var $ = function (id) { return document.getElementById(id); };
+var zahl = function (n) { return String(n).replace('.', ','); };
+var D = DATEN;
+
+$('stand').textContent = 'Letzter Lauf: ' + D.stand + ' · ' + D.gelesen + ' Zeilen aus ' + D.fluss.length + ' Quellen';
+$('bilanz').classList.toggle('fehler', !D.bilanzOk);
+$('bilanz').lastElementChild.textContent = D.bilanzOk ? 'Bilanz OK – keine Zeile verloren' : 'Bilanz FEHLER – Ergebnis nicht verwenden';
+
+// Kennzahlen
+var quote = Math.round(D.zusammengefuehrt / D.gelesen * 100);
+$('kpis').innerHTML = [
+  ['gruen', D.sauber, ' von ' + D.gelesen, 'echte Kontakte', 'sauber, ohne Duplikate, sofort nutzbar'],
+  ['blau', D.zusammengefuehrt, ' = ' + quote + ' %', 'doppelte Zeilen', 'erkannt und zu einer Person zusammengeführt'],
+  ['blau', D.pruefen, '', 'zur Prüfung', 'unklare Fälle – mit Begründung für einen Menschen'],
+  ['grau', D.gesperrt, '', 'gesperrte Zeilen', 'Widerspruch gegen Werbung, aus allen Listen entfernt']
+].map(function (k) {
+  return '<div class="card kpi ' + k[0] + '"><div class="zahl">' + k[1] + '<small>' + k[2] + '</small></div>' +
+         '<div class="titel">' + k[3] + '</div><div class="text">' + k[4] + '</div></div>';
+}).join('');
+
+// Flussdiagramm (SVG, ohne Bibliothek)
+(function () {
+  var B = 1040, H = 372, px = 1.55, luecke = 16, knoten = 14, x1 = 170, x2 = B - 190;
+  var farbe = { sauber: '#18A977', pruefen: '#2F6FDE', gesperrt: '#94A3B3' };
+  var ziele = [['sauber', 'Sauber'], ['pruefen', 'Prüfen'], ['gesperrt', 'Gesperrt']];
+  var summe = {}; ziele.forEach(function (z) { summe[z[0]] = D.fluss.reduce(function (s, f) { return s + f[z[0]]; }, 0); });
+  var yZiel = {}, y = 20;
+  ziele.forEach(function (z) { yZiel[z[0]] = { start: y, lauf: y }; y += summe[z[0]] * px + luecke + 26; });
+  var svg = '', yq = 10;
+  D.fluss.forEach(function (f) {
+    var gesamt = f.sauber + f.pruefen + f.gesperrt, h = gesamt * px, lauf = yq;
+    ziele.forEach(function (z) {
+      var n = f[z[0]]; if (!n) return;
+      var d = n * px, a = lauf + d / 2, b = yZiel[z[0]].lauf + d / 2, m = (x1 + knoten + x2) / 2;
+      svg += '<path d="M' + (x1 + knoten) + ',' + a + ' C' + m + ',' + a + ' ' + m + ',' + b + ' ' + x2 + ',' + b +
+             '" fill="none" stroke="' + farbe[z[0]] + '" stroke-opacity=".32" stroke-width="' + Math.max(d, 1.5) + '"><title>' +
+             f.quelle + ' → ' + z[1] + ': ' + n + ' Zeilen</title></path>';
+      lauf += d; yZiel[z[0]].lauf += d;
+    });
+    svg += '<rect x="' + x1 + '" y="' + yq + '" width="' + knoten + '" height="' + h + '" rx="4" fill="#0F2A3D"/>' +
+           '<text x="' + (x1 - 12) + '" y="' + (yq + h / 2 - 2) + '" text-anchor="end" font-size="14" font-weight="650" fill="#0F2A3D">' + f.quelle + '</text>' +
+           '<text x="' + (x1 - 12) + '" y="' + (yq + h / 2 + 15) + '" text-anchor="end" font-size="12.5" fill="#5B7083">' + gesamt + ' Zeilen</text>';
+    yq += h + luecke;
+  });
+  var text = { sauber: D.sauber + ' Kontakte', pruefen: D.pruefen + ' Datensätze', gesperrt: 'nirgends ausgegeben' };
+  ziele.forEach(function (z) {
+    var h = Math.max(summe[z[0]] * px, 3), ys = yZiel[z[0]].start;
+    svg += '<rect x="' + x2 + '" y="' + ys + '" width="' + knoten + '" height="' + h + '" rx="4" fill="' + farbe[z[0]] + '"/>' +
+           '<text x="' + (x2 + knoten + 12) + '" y="' + (ys + Math.max(h / 2, 8) - 2) + '" font-size="14" font-weight="700" fill="#0F2A3D">' + z[1] + ' · ' + summe[z[0]] + ' Zeilen</text>' +
+           '<text x="' + (x2 + knoten + 12) + '" y="' + (ys + Math.max(h / 2, 8) + 15) + '" font-size="12.5" fill="#5B7083">' + text[z[0]] + '</text>';
+  });
+  $('fluss').innerHTML = '<svg viewBox="0 0 ' + B + ' ' + H + '" width="100%" role="img" aria-label="Fluss der Zeilen von den Quellen zu Sauber, Prüfen und Gesperrt">' + svg + '</svg>';
+})();
+
+// Prüfquote je Quelle
+var q = D.fluss.map(function (f) { var g = f.sauber + f.pruefen + f.gesperrt; return [f.quelle, f.pruefen, g, f.pruefen / g]; })
+  .sort(function (a, b) { return b[3] - a[3]; });
+var maxQ = Math.max.apply(null, q.map(function (x) { return x[3]; }));
+$('quellen').innerHTML = q.map(function (x) {
+  return '<div class="zeile"><div>' + x[0] + '</div><div class="spur"><div class="balken" style="width:' + (x[3] / maxQ * 100) + '%"></div></div>' +
+         '<div class="wert"><b>' + Math.round(x[3] * 100) + ' %</b> · ' + x[1] + '/' + x[2] + '</div></div>';
+}).join('') + '<p class="hinweis" style="margin:14px 0 0">' + q[0][0] + ' verursacht den höchsten Prüfaufwand – hier lohnt es sich, die Erfassung zu ändern.</p>';
+
+// Datenschutz
+$('dsgvo').innerHTML = [
+  [D.gesperrt, 'Zeilen gesperrt', 'Sperrliste und Newsletter-Abmeldungen – nach dem Säubern abgeglichen, damit keine Schreibweise durchrutscht'],
+  [D.nameAufSperrliste, 'gesperrte Person trotz kaputter E-Mail erkannt', 'Abgleich über den Namen – landet auf der Prüf-Liste statt in der Werbung'],
+  [D.anfragenGerettet, 'Anfragen gerettet', 'Gesperrte Kontakte, die sich später selbst gemeldet haben – eine Anfrage zu beantworten ist keine Werbung']
+].map(function (f) { return '<li><div class="n">' + f[0] + '</div><div><b>' + f[1] + '</b><span>' + f[2] + '</span></div></li>'; }).join('');
+
+// Prüfgründe
+var maxG = D.gruende[0][1];
+$('gruende').innerHTML = D.gruende.map(function (g) {
+  return '<div class="zeile breit"><div>' + g[0] + '</div><div class="spur"><div class="balken" style="width:' + (g[1] / maxG * 100) + '%"></div></div><div class="wert"><b>' + g[1] + '</b></div></div>';
+}).join('');
+
+// Zeitersparnis (Annahmen offen ausgewiesen)
+var A = D.annahmen;
+var minuten = D.gelesen * A.minutenJeZeileVonHand - D.pruefen * A.minutenJePruefDatensatz;
+var stunden = Math.round(minuten / 6) / 10, euro = Math.round(minuten / 60 * A.stundensatz / 5) * 5;
+$('zeit').innerHTML = '≈ ' + zahl(stunden) + ' Std. · <span>≈ ' + euro + ' €</span>';
+$('rechnung').innerHTML =
+  '<tr><td>Von Hand: ' + D.gelesen + ' Zeilen × ' + A.minutenJeZeileVonHand + ' Min.</td><td>' + (D.gelesen * A.minutenJeZeileVonHand) + ' Min.</td></tr>' +
+  '<tr><td>Mit Skript: ' + D.pruefen + ' Prüf-Fälle × ' + A.minutenJePruefDatensatz + ' Min.</td><td>' + (D.pruefen * A.minutenJePruefDatensatz) + ' Min.</td></tr>' +
+  '<tr><td>Ersparnis</td><td>' + minuten + ' Min.</td></tr>';
+$('zeitText').textContent = 'Das sind rund ' + Math.round(stunden / A.wochenstunden * 100) + ' % einer ' + A.wochenstunden +
+  '-Stunden-Woche – bei jeder neuen Liste wieder.';
+$('fuss').innerHTML = '* Rechenbeispiel mit Annahmen: ' + A.minutenJeZeileVonHand + ' Min. je Zeile beim Abgleich von Hand, ' +
+  A.minutenJePruefDatensatz + ' Min. je Datensatz auf der Prüf-Liste, Stundensatz ' + A.stundensatz + ' €, ' + A.wochenstunden +
+  ' Wochenstunden. Die Annahmen sind in der Konfiguration änderbar.<br>Demo-Projekt: SICH Studio ist ein Modellunternehmen, die Daten sind synthetische Testdaten. ' +
+  'Das Cockpit zeigt nur Zahlen, keine personenbezogenen Daten.';
+</script>
+</body>
+</html>
