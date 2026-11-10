@@ -4,6 +4,8 @@
 
 Built with Google Apps Script. No add-ons, no external services, no AI in the core: every rule can be read, tested and explained.
 
+**Live cockpit:** [open the web app](https://script.google.com/macros/s/AKfycbxigPIFfsmDxaRsgpY2GTBQPTFU-wtq3qKxddGltTRqq5-TF2dZNikwP52lejOiaifE/exec) – figures of the last run, no personal data.
+
 **Status: active.** The project runs in a real Google Sheet and is being extended. What is planned next is listed under [Status and next steps](#status-and-next-steps).
 
 ![Kontaktdaten-Cockpit: key figures, row flow from four sources, data protection and time saved](docs/img/cockpit.png)
@@ -186,7 +188,7 @@ One line that shows after every run whether anything was lost.
 
 ## The cockpit
 
-`Datenpflege → Cockpit anzeigen` opens the dashboard inside the spreadsheet. Deployed as a web app (`Bereitstellen → Web-App`), the same page has its own link. It shows the figures of the last run:
+`Datenpflege → Cockpit anzeigen` opens the dashboard inside the spreadsheet. Deployed as a web app (`Bereitstellen → Web-App`), the same page has its own link: **[live cockpit](https://script.google.com/macros/s/AKfycbxigPIFfsmDxaRsgpY2GTBQPTFU-wtq3qKxddGltTRqq5-TF2dZNikwP52lejOiaifE/exec)**. It shows the figures of the last run:
 
 - key figures and balance status
 - the flow of rows from each source to *Sauber*, *Prüfen* and *Gesperrt*
@@ -303,7 +305,7 @@ The project is active and still being improved. Planned next:
 
 ### Changelog
 
-- **2026-11-10** Cockpit as web app and menu item. Two new rules: enquiry after an objection, two people behind one address. Code review with ten fixes. First run in Google Sheets.
+- **2026-11-10** Cockpit as web app (published) and menu item. Two new rules: enquiry after an objection, two people behind one address. Code review with ten fixes. First run in Google Sheets.
 - **2026-11-09** Specification, synthetic test data (150 rows, 23 special cases) and expected outcomes.
 
 ## License
