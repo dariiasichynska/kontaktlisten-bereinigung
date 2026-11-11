@@ -102,7 +102,7 @@ A record goes to **Prüfen** with a plain reason. The script never guesses.
 - **`+49 (0)30 …` and `+49 030 …`.** The usual one-line expression (strip everything but digits, turn a leading `0` into `+49`) produces `+49030…`, a number that looks tidy and does not connect. The script removes the optional zero first and then checks the length.
 - **Google Sheets rewrites values.** Written into a normal cell, `+4930…` loses its plus and becomes a number, and `2026-09-15` becomes a date. The script sets the text format first and writes the values second.
 - **Block after cleaning, not before.** Compared raw, `MARKUS…@` slips past `markus…@` on the block list.
-- **Check before removing duplicates.** Two rows without an e-mail look identical to a duplicate filter, and one person silently disappears.
+- **Why merge before review?** The tool reviews records, not rows: a missing first name in one source is often filled from another, and some conflicts, such as different surnames or two people behind one address, only show once the rows of one person are grouped. Rows without a valid e-mail never enter the merge, so they cannot be swallowed as duplicates.
 - **A missing block list stops the run.** Without it, every blocked person would land in the clean list while the balance still says OK.
 - **Count the rows.** Each run writes a log line and checks `read = clean + review + blocked`. In 2020 Public Health England lost 15,841 COVID cases because a file format cut rows off without an error. A balance would have shown it at once.
 
@@ -205,7 +205,7 @@ The rules live in pure functions without any Google service ([`src/Bereinigung.g
 
 ```bash
 python3 tests/export_fixture.py   # workbook → tests/fixture.json
-node tests/run-tests.js           # 121 checks: building blocks, 23 special cases, balance, second run
+node tests/run-tests.js           # 128 checks: building blocks, 23 special cases, balance, second run
 node tests/smoke-sheets.js        # menu, tabs, log and cockpit against a simulated SpreadsheetApp
 ```
 
@@ -288,7 +288,7 @@ I worked with **Claude (Anthropic) as the developer**. Claude wrote the code and
 
 ## Limits
 
-- **Review decisions are not remembered.** If a person decides that `Anna Lena Vogt` is a double first name, the record comes back to the review list on the next run until the source row is corrected.
+- **Review decisions are tied to row numbers.** Decisions are matched by the `quellen` column (tab + row number). If rows are inserted, deleted or re-sorted in a source tab, the decision cannot be matched and moves to the tab *Entscheidungen-Archiv*. It is kept, but has to be re-assigned by hand.
 - The rules are written for German names, phone numbers and date formats.
 - The time saved is a worked example based on assumptions.
 - The script produces lists. It sends no e-mail and writes to no CRM.
@@ -299,12 +299,12 @@ I worked with **Claude (Anthropic) as the developer**. Claude wrote the code and
 
 The project is active and still being improved. Planned next:
 
-- remember review decisions between runs
 - measure the run time in Google Sheets with several thousand rows
 - a copy link to the spreadsheet, so anyone can try it with one click
 
 ### Changelog
 
+- **2026-11-11** Review decisions are kept between runs (columns `entscheidung` and `notiz` on *Prüfen*, unmatched decisions go to *Entscheidungen-Archiv*). New tab *Kontrolle*: spreadsheet formulas recount the result independently of the script. The cell that triggers a review reason is highlighted.
 - **2026-11-10** Cockpit as web app (published) and menu item. Two new rules: enquiry after an objection, two people behind one address. Code review with ten fixes. First run in Google Sheets.
 - **2026-11-09** Specification, synthetic test data (150 rows, 23 special cases) and expected outcomes.
 

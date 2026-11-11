@@ -1,4 +1,4 @@
-// Version 1.3 (2026-11-10): Firmenname SICH Studio
+// Version 1.4 (2026-11-11): Entscheidungen auf „Prüfen“, Tab „Kontrolle“, Markierung der Problemzellen
 /**
  * Konfiguration der Kontaktlisten-Bereinigung (SICH Studio)
  *
@@ -36,7 +36,31 @@ var KONFIG = {
 
   sperrliste: { tab: 'Sperrliste', felder: { email: 'E-Mail', name: 'Name', datum: 'Widerspruch am' } },
 
-  ausgabe: { sauber: 'Sauber', pruefen: 'Prüfen', protokoll: 'Protokoll' },
+  ausgabe: { sauber: 'Sauber', pruefen: 'Prüfen', protokoll: 'Protokoll',
+             kontrolle: 'Kontrolle', archiv: 'Entscheidungen-Archiv' },
+
+  // Spalten, in die ein Mensch auf „Prüfen“ schreibt. Sie bleiben über Läufe hinweg erhalten
+  // (Schlüssel: Spalte „quellen“). Die Auswahlliste ist ein Vorschlag, freier Text ist erlaubt.
+  entscheidung: { auswahl: ['erledigt', 'in Arbeit', 'Quelle korrigieren', 'verwerfen'] },
+
+  // Welche Zelle auf „Prüfen“ wird zu welchem Grund farbig markiert?
+  markierung: {
+    farbe: '#FFF2CC',
+    spalten: {
+      'E-Mail fehlt': ['email'],
+      'E-Mail ungültig': ['email'],
+      'Rollenadresse': ['email'],
+      'Vorname fehlt': ['vorname'],
+      'Name nicht eindeutig': ['vorname', 'nachname'],
+      'Titel im Namen': ['vorname', 'nachname'],
+      'Gesperrt, aber neue Anfrage': ['email'],
+      'Gleiche E-Mail, verschiedene Vornamen': ['email', 'vorname'],
+      'Nachname weicht ab': ['nachname'],
+      'Telefon nicht lesbar': ['telefon'],
+      'Mögliches Duplikat': ['email', 'vorname', 'nachname'],
+      'Name auf Sperrliste': ['vorname', 'nachname']
+    }
+  },
 
   // Adressen ohne Ansprechperson
   rollenadressen: ['info', 'kontakt', 'contact', 'office', 'service', 'mail', 'hallo', 'hello', 'team',

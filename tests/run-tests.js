@@ -50,6 +50,32 @@ D(46280, '2026-09-15');
 D(new Date(2026, 8, 13, 10, 30), '2026-09-13');
 D('irgendwann', '');
 
+// --- 1c. v1.5: Entscheidungen behalten, Markierung
+{
+  const { uebernimmEntscheidungen, markierteZellen, PRUEF_SPALTEN } = ctx;
+  const leer = ['', '', '', '', '', '', ''];
+  const neu = [['Vorname fehlt', 'a@x.example', '', 'Krause', '', '', '', 'Messe-4'],
+               ['E-Mail fehlt', '', 'Ole', 'Hansen', '', '', '', 'Messe-9']];
+  const alt = [PRUEF_SPALTEN.concat(['entscheidung', 'notiz']),
+               ['Vorname fehlt', 'a@x.example', '', 'Krause', '', '', '', 'Messe-4', 'erledigt', 'Herr Krause'],
+               ['E-Mail fehlt', '', 'Alt', '', '', '', '', 'Messe-2', '', 'angerufen'],
+               ['E-Mail fehlt', '', 'Leer', '', '', '', '', 'Messe-3', '', '']];
+  const e = uebernimmEntscheidungen(alt, neu);
+  pruefe(e.zeilen[0].slice(-2).join('|') === 'erledigt|Herr Krause' && e.zeilen[1].slice(-2).join('|') === '|', 'Entscheidung per quellen übernommen, neue Zeile leer');
+  pruefe(e.uebernommen === 1 && e.archiv.length === 1 && e.archiv[0][1] === 'Messe-2' && e.archiv[0][7] === 'angerufen', 'verwaiste Notiz ins Archiv, leere Zeile nicht');
+  pruefe(uebernimmEntscheidungen(null, neu).zeilen.every(z => z.length === 10), 'erster Lauf: zwei leere Spalten angehängt');
+  pruefe(uebernimmEntscheidungen([PRUEF_SPALTEN, ['Vorname fehlt'].concat(leer)], neu).archiv.length === 0, 'Prüfen aus v1.4 ohne Mensch-Spalten: nichts zu übernehmen');
+  const m = markierteZellen([['E-Mail ungültig; Titel im Namen', 'x', 'Klaus', 'Berg', '', '', '', 'Messe-1'],
+                             ['Mögliches Duplikat zu a@x.example', 'b@x.example', 'Anna', 'Berg', '', '', '', 'Webinar-1']], KONFIG);
+  const an = (z) => PRUEF_SPALTEN.filter((s, i) => m[z][i]).join(',');
+  pruefe(an(0) === 'email,vorname,nachname', 'Markierung: zwei Gründe -> E-Mail, Vorname, Nachname');
+  pruefe(an(1) === 'email,vorname,nachname', 'Markierung: Grund mit Details wird erkannt');
+  const alleGruende = ['E-Mail fehlt', 'E-Mail ungültig', 'Rollenadresse', 'Vorname fehlt', 'Name nicht eindeutig', 'Titel im Namen',
+    'Gesperrt, aber neue Anfrage', 'Gleiche E-Mail, verschiedene Vornamen', 'Nachname weicht ab', 'Telefon nicht lesbar',
+    'Mögliches Duplikat', 'Name auf Sperrliste'];
+  pruefe(alleGruende.every(g => (KONFIG.markierung.spalten[g] || []).length > 0), 'jeder Prüfgrund hat eine Markierung');
+}
+
 // --- 1b. Regressionstests aus dem Code-Review vom 10.11.2026
 T('+49 030 2312 5002', '+493023125002');     // 0 nach Ländervorwahl
 T('0049 030 23125002', '+493023125002');

@@ -1,6 +1,6 @@
 # Fachkonzept: Kontaktlisten-Bereinigung für SICH Studio
 
-Version 1.4 · 10.11.2026
+Version 1.5 · 11.11.2026
 
 > **Hinweis:** Demo-Projekt: SICH Studio ist ein Modellunternehmen. Alle Personen, Firmen, E-Mail-Adressen und Telefonnummern im Projekt sind synthetische Testdaten. Alle Domains enden auf `.example` – diese Endung existiert im Internet absichtlich nicht.
 
@@ -23,13 +23,15 @@ Dazu kommt eine **Sperrliste**: Personen, die der Nutzung ihrer Daten für Werbu
 
 ## 2. Ergebnis
 
-Das Skript schreibt drei Tabs. Die Quell-Tabs bleiben unverändert.
+Das Skript schreibt vier Tabs (dazu bei Bedarf ein Archiv). Die Quell-Tabs bleiben unverändert.
 
 | Tab | Inhalt |
 |---|---|
 | **Sauber** | Ein Datensatz pro Person, sofort nutzbar |
-| **Prüfen** | Unklare Datensätze mit Spalte `grund` – ein Mensch entscheidet |
+| **Prüfen** | Unklare Datensätze mit Spalte `grund` – ein Mensch entscheidet und trägt das in `entscheidung` / `notiz` ein |
 | **Protokoll** | Zeitpunkt, Zeilen je Quelle, Ergebnis, Bilanz-Prüfung |
+| **Kontrolle** | Gegenprobe mit Tabellenformeln: Google Sheets zählt selbst nach (siehe 3.9) |
+| **Entscheidungen-Archiv** | Entstehen nur bei Bedarf: Entscheidungen, deren Datensatz nicht mehr auf „Prüfen“ steht |
 
 **Ziel-Schema** (Spaltennamen klein, ohne Umlaute, ohne Leerzeichen):
 
@@ -43,7 +45,7 @@ Das Skript schreibt drei Tabs. Die Quell-Tabs bleiben unverändert.
 | `erster_kontakt` | frühestes Datum über alle Quellen, `JJJJ-MM-TT` |
 | `quellen` | Fundstellen, z. B. `Kontaktformular-12, Messe-4` (Tab + Zeilennummer) |
 
-Der Tab **Prüfen** hat zusätzlich vorne die Spalte `grund`.
+Der Tab **Prüfen** hat zusätzlich vorne die Spalte `grund` und hinten die Spalten `entscheidung` (Auswahlliste: erledigt, in Arbeit, Quelle korrigieren, verwerfen; freier Text erlaubt) und `notiz`. Diese beiden Spalten füllt nur ein Mensch.
 
 Bewusst **nicht** übernommen (Datenminimierung): Anfrage-ID, Nachricht, Notiz, Teilgenommen, Status.
 
@@ -125,12 +127,34 @@ Ein Datensatz kommt auf **Prüfen**, wenn mindestens ein Grund zutrifft. Mehrere
 ### 3.7 Schreiben
 `Sauber` und `Prüfen` werden bei jedem Lauf **komplett neu** geschrieben (idempotent: zweimal klicken = gleiches Ergebnis). Sortierung: `Sauber` nach E-Mail, `Prüfen` nach Grund.
 
+**Entscheidungen bleiben erhalten.** Vor dem Schreiben liest das Skript `entscheidung` und `notiz` aus dem bisherigen Tab **Prüfen** und schreibt sie wieder zum selben Datensatz. Schlüssel ist die Spalte `quellen` (Tab + Zeilennummer, z. B. `Messe-4`): gleiche Fundstellen = derselbe Datensatz. Findet eine Entscheidung keinen Datensatz mehr – etwa weil die Quelle korrigiert wurde und die Person jetzt auf **Sauber** steht –, wird sie mit Datum an den Tab **Entscheidungen-Archiv** angehängt. Eine Entscheidung verschwindet nie still. Das Protokoll nennt, wie viele Entscheidungen übernommen und archiviert wurden.
+
+Die Entscheidung wird **nicht ausgewertet**: Ein „erledigt“ verschiebt nichts nach **Sauber**. Was mit dem Datensatz passiert, bleibt Sache des Menschen.
+
+Grenze: Werden in einem Quell-Tab Zeilen eingefügt, gelöscht oder umsortiert, ändern sich die Zeilennummern. Die Entscheidung landet dann im Archiv statt beim Datensatz.
+
+**Problemzelle markiert.** Auf **Prüfen** wird die Zelle, die den Grund auslöst, hellgelb (`#FFF2CC`), z. B. `email` bei „E-Mail ungültig“, `telefon` bei „Telefon nicht lesbar“. Die Zuordnung Grund → Spalten steht in der Konfiguration.
+
 ### 3.8 Protokoll und Bilanz
 Jeder Lauf hängt eine Zeile an: Zeitpunkt, gelesene Zeilen je Quelle, gesperrte Zeilen, Datensätze in Sauber/Prüfen, Bilanz.
 
 **Bilanz:** `gelesene Zeilen = Fundstellen in Sauber + Fundstellen in Prüfen + gesperrte Zeilen`. Geht keine Zeile verloren, steht dort **OK**, sonst **FEHLER** und ein Hinweis-Fenster.
 
 > Hintergrund: 2020 verlor die englische Gesundheitsbehörde 15.841 Corona-Fälle, weil eine Datei stillschweigend Zeilen abschnitt. Eine Bilanz hätte es sofort gezeigt.
+
+### 3.9 Kontrolle (Gegenprobe mit Formeln)
+Die Bilanz in 3.8 rechnet das Skript selbst – es prüft sich also selbst. Der Tab **Kontrolle** prüft unabhängig davon: Formeln zählen direkt in den Tabs nach.
+
+| Spalte | Formel |
+|---|---|
+| gelesen | nicht-leere Zeilen im Quell-Tab (`BYROW` + `TEXTJOIN`) |
+| in Sauber / in Prüfen | Vorkommen von `Quelle-` in der Spalte `quellen` (`SUBSTITUTE`, `LEN`) |
+| gesperrt | Rest: gelesen − in Sauber − in Prüfen |
+| Kennzahlen | Datensätze in Sauber / Prüfen (`COUNTA`), zusammengeführte Zeilen |
+
+Daneben stehen die Zahlen des Skripts aus dem letzten Lauf. Jede Zeile zeigt ✓ oder ✗, unten steht **OK** oder **ABWEICHUNG**. Ein ✗ entsteht, wenn jemand **Sauber** oder **Prüfen** später von Hand ändert oder beim Schreiben etwas verloren geht.
+
+Die Formeln werden vom Skript in englischer Schreibweise gesetzt (`setFormula`); Google Sheets zeigt sie in der Sprache der Tabelle an.
 
 ## 4. Bedienung
 - Menü **Datenpflege → Kontaktlisten bereinigen** in Google Sheets.
@@ -144,4 +168,5 @@ Jeder Lauf hängt eine Zeile an: Zeitpunkt, gelesene Zeilen je Quelle, gesperrte
 ## 6. Abnahme
 - Alle 23 Sonderfälle in `tests/sonderfaelle.json` verhalten sich wie erwartet.
 - Bilanz = OK.
-- Zweiter Lauf liefert identisches Ergebnis.
+- Zweiter Lauf liefert identisches Ergebnis; Einträge in `entscheidung` / `notiz` bleiben erhalten.
+- Tab **Kontrolle**: alle Zeilen ✓, Ergebnis **OK**.

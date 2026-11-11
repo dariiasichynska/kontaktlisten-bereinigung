@@ -1,4 +1,4 @@
-// Version 1.3 (2026-11-10): Auswertung je Quelle und je Prüfgrund für das Cockpit
+// Version 1.4 (2026-11-11): Entscheidungen auf „Prüfen“ bleiben erhalten, Problemzellen werden markiert
 /**
  * Kernlogik der Kontaktlisten-Bereinigung.
  * Reine Funktionen: kein SpreadsheetApp, kein Netzwerk. Dadurch lokal testbar (tests/run-tests.js).
@@ -9,6 +9,9 @@
 
 var ZIEL_SPALTEN = ['email', 'vorname', 'nachname', 'firma', 'telefon', 'erster_kontakt', 'quellen'];
 var PRUEF_SPALTEN = ['grund'].concat(ZIEL_SPALTEN);
+// Spalten, die ein Mensch auf „Prüfen“ ausfüllt. Das Skript schreibt sie nur zurück, es wertet sie nicht aus.
+var MENSCH_SPALTEN = ['entscheidung', 'notiz'];
+var ARCHIV_SPALTEN = ['archiviert_am', 'quellen', 'grund', 'email', 'vorname', 'nachname', 'entscheidung', 'notiz'];
 
 /* ------------------------------------------------------------------ Säubern: Bausteine */
 
@@ -331,7 +334,7 @@ function bereinige(tabs, konfig) {
   var gruendeZaehler = {};
   pruefen.forEach(function (d) {
     d.gruende.forEach(function (g) {
-      var kurz = g.replace(/ \(.*$/, '').replace(/ zu .*$/, ''); // ohne Details in Klammern
+      var kurz = kurzGrund(g);
       gruendeZaehler[kurz] = (gruendeZaehler[kurz] || 0) + 1;
     });
   });
@@ -436,5 +439,81 @@ function fuehreZusammen(gruppe, konfig, zusatzGrund) {
     tabs: z.map(function (x) { return x.tab; }),
     anfrageTrotzSperre: anfrageTrotzSperre,
     gruende: gruende
+  };
+}
+
+/* ------------------------------------------------------------------ Nach dem Lauf: Mensch und Markierung */
+
+/** Grund ohne Details: „Nachname weicht ab (Moeller / Schulz)“ -> „Nachname weicht ab“. */
+function kurzGrund(grund) {
+  return String(grund).replace(/ \(.*$/, '').replace(/ zu .*$/, '');
+}
+
+/**
+ * Welche Zellen auf „Prüfen“ sollen farbig werden?
+ * @param {Array[]} pruefZeilen Zeilen in der Reihenfolge PRUEF_SPALTEN (wie bereinige().pruefen)
+ * @return {boolean[][]} je Zeile und Spalte (PRUEF_SPALTEN) true = markieren
+ */
+function markierteZellen(pruefZeilen, konfig) {
+  var zuordnung = konfig.markierung.spalten;
+  return pruefZeilen.map(function (zeile) {
+    var markiert = PRUEF_SPALTEN.map(function () { return false; });
+    String(zeile[0]).split('; ').forEach(function (g) {
+      (zuordnung[kurzGrund(g)] || []).forEach(function (spalte) {
+        var i = PRUEF_SPALTEN.indexOf(spalte);
+        if (i !== -1) markiert[i] = true;
+      });
+    });
+    return markiert;
+  });
+}
+
+/**
+ * Hält die Arbeit des Menschen über Läufe hinweg fest.
+ * Schlüssel ist die Spalte „quellen“ (z. B. „Messe-4“ oder „Kontaktformular-12, Messe-7“):
+ * Gleiche Fundstellen = derselbe Datensatz. Was keinem neuen Datensatz mehr zugeordnet werden kann
+ * (z. B. weil die Quelle korrigiert wurde und die Person jetzt auf „Sauber“ steht), geht ins Archiv –
+ * eine Entscheidung verschwindet nie still.
+ *
+ * @param {Array[]|null} alteWerte  bisheriger Inhalt des Tabs „Prüfen“ inkl. Kopfzeile (getValues) oder null
+ * @param {Array[]} neueZeilen       neue Prüf-Zeilen in der Reihenfolge PRUEF_SPALTEN
+ * @return {{zeilen: Array[], archiv: Array[], uebernommen: number}}
+ *         zeilen = PRUEF_SPALTEN + MENSCH_SPALTEN; archiv = ARCHIV_SPALTEN ohne das Datum (erste Spalte leer)
+ */
+function uebernimmEntscheidungen(alteWerte, neueZeilen) {
+  var alt = Object.create(null), reihenfolge = [], archiv = [];
+  if (alteWerte && alteWerte.length > 1) {
+    var kopf = alteWerte[0].map(function (k) { return saeubereText(k); });
+    var spalte = function (name) { return kopf.indexOf(name); };
+    var iQuellen = spalte('quellen');
+    var hatMensch = MENSCH_SPALTEN.some(function (m) { return spalte(m) !== -1; });
+    if (iQuellen !== -1 && hatMensch) {
+      alteWerte.slice(1).forEach(function (z) {
+        var wert = function (name) { var i = spalte(name); return i === -1 ? '' : saeubereText(z[i]); };
+        var mensch = MENSCH_SPALTEN.map(wert);
+        if (!mensch.some(Boolean)) return;                      // nichts eingetragen
+        var eintrag = { mensch: mensch, z: z, wert: wert };
+        var key = wert('quellen');
+        if (key && !alt[key]) { alt[key] = eintrag; reihenfolge.push(key); }
+        else archiv.push(eintrag);                              // ohne Schlüssel oder doppelt: nicht raten
+      });
+    }
+  }
+  var uebernommen = 0, benutzt = Object.create(null);
+  var zeilen = neueZeilen.map(function (zeile) {
+    var key = saeubereText(zeile[PRUEF_SPALTEN.indexOf('quellen')]);
+    var eintrag = alt[key];
+    if (!eintrag) return zeile.concat(MENSCH_SPALTEN.map(function () { return ''; }));
+    benutzt[key] = true;
+    uebernommen++;
+    return zeile.concat(eintrag.mensch);
+  });
+  reihenfolge.forEach(function (key) { if (!benutzt[key]) archiv.push(alt[key]); });
+  return {
+    zeilen: zeilen,
+    archiv: archiv.map(function (e) {
+      return [''].concat(['quellen', 'grund', 'email', 'vorname', 'nachname'].map(e.wert), e.mensch);
+    }),
+    uebernommen: uebernommen
   };
 }

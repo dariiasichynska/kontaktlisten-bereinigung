@@ -1,4 +1,4 @@
-// Version 1.4 (2026-11-10): Firmenname SICH Studio
+// Version 1.5 (2026-11-11): Entscheidungen auf „Prüfen“ bleiben erhalten, Tab „Kontrolle“ (Gegenprobe mit Formeln), Problemzellen markiert
 /**
  * Anbindung an Google Sheets: Menü, Lesen, Schreiben, Protokoll, Zeitsteuerung.
  * Die eigentlichen Regeln stehen in Bereinigung.gs, die Zuordnung der Spalten in Konfiguration.gs.
@@ -34,14 +34,24 @@ function bereinigeKontaktlisten() {
 
     var ergebnis = bereinige(tabs, KONFIG);
 
+    // Was ein Mensch auf „Prüfen“ eingetragen hat, VOR dem Überschreiben lesen.
+    var altPruefen = ss.getSheetByName(KONFIG.ausgabe.pruefen);
+    var mensch = uebernimmEntscheidungen(altPruefen ? altPruefen.getDataRange().getValues() : null, ergebnis.pruefen);
+
     schreibeTab(ss, KONFIG.ausgabe.sauber, ZIEL_SPALTEN, ergebnis.sauber, '#2F4858');
-    schreibeTab(ss, KONFIG.ausgabe.pruefen, PRUEF_SPALTEN, ergebnis.pruefen, '#9C4A2F');
-    schreibeProtokoll(ss, ergebnis.protokoll, '');
+    var pruefBlatt = schreibeTab(ss, KONFIG.ausgabe.pruefen, PRUEF_SPALTEN.concat(MENSCH_SPALTEN), mensch.zeilen, '#9C4A2F');
+    gestaltePruefen(pruefBlatt, ergebnis.pruefen);
+    archiviereEntscheidungen(ss, mensch.archiv);
+    schreibeKontrolle(ss, ergebnis.protokoll);
+    var hinweis = [mensch.uebernommen ? mensch.uebernommen + ' Entscheidung(en) übernommen' : '',
+                   mensch.archiv.length ? mensch.archiv.length + ' Entscheidung(en) archiviert' : ''].filter(Boolean).join('; ');
+    schreibeProtokoll(ss, ergebnis.protokoll, '', hinweis);
     speichereCockpitDaten(ergebnis.protokoll);
 
     var p = ergebnis.protokoll;
     var text = p.summeGelesen + ' Zeilen gelesen → ' + p.sauber + ' sauber, ' + p.pruefen + ' zu prüfen, ' +
-               p.gesperrt + ' gesperrt. Bilanz: ' + (p.bilanzOk ? 'OK' : 'FEHLER');
+               p.gesperrt + ' gesperrt. Bilanz: ' + (p.bilanzOk ? 'OK' : 'FEHLER') +
+               (mensch.archiv.length ? '. ' + mensch.archiv.length + ' Entscheidung(en) ins Archiv verschoben.' : '');
     if (p.bilanzOk) {
       ss.toast(text, MENUE, 10);
     } else {
@@ -61,6 +71,7 @@ function bereinigeKontaktlisten() {
 function schreibeTab(ss, name, kopf, zeilen, farbe) {
   var blatt = ss.getSheetByName(name) || ss.insertSheet(name);
   blatt.clear();
+  blatt.getRange(1, 1, blatt.getMaxRows(), blatt.getMaxColumns()).clearDataValidations(); // alte Auswahllisten weg
   var daten = [kopf].concat(zeilen.map(function (zeile) { return zeile.map(entschaerfe); }));
   var bereich = blatt.getRange(1, 1, daten.length, kopf.length);
   // Ohne Textformat macht Sheets aus „+493023125002“ eine Zahl und das Plus verschwindet,
@@ -70,6 +81,123 @@ function schreibeTab(ss, name, kopf, zeilen, farbe) {
   blatt.getRange(1, 1, 1, kopf.length).setFontWeight('bold').setFontColor('#FFFFFF').setBackground(farbe);
   blatt.setFrozenRows(1);
   blatt.autoResizeColumns(1, kopf.length);
+  return blatt;
+}
+
+/**
+ * „Prüfen“ für den Menschen herrichten:
+ * - Zelle, die den Grund auslöst, farbig (z. B. die E-Mail bei „E-Mail ungültig“)
+ * - Spalten „entscheidung“ und „notiz“ mit eigener Kopf-Farbe, „entscheidung“ mit Auswahlliste
+ */
+function gestaltePruefen(blatt, pruefZeilen) {
+  var anzahl = pruefZeilen.length;
+  var ersteMensch = PRUEF_SPALTEN.length + 1;
+  blatt.getRange(1, ersteMensch, 1, MENSCH_SPALTEN.length).setBackground('#3E7B5B');
+  if (!anzahl) return;
+  var farbe = KONFIG.markierung.farbe;
+  var farben = markierteZellen(pruefZeilen, KONFIG).map(function (zeile) {
+    return zeile.map(function (markiert) { return markiert ? farbe : null; });
+  });
+  blatt.getRange(2, 1, anzahl, PRUEF_SPALTEN.length).setBackgrounds(farben);
+  var auswahl = SpreadsheetApp.newDataValidation()
+    .requireValueInList(KONFIG.entscheidung.auswahl, true)
+    .setAllowInvalid(true) // freier Text bleibt möglich
+    .build();
+  blatt.getRange(2, ersteMensch, anzahl, 1).setDataValidation(auswahl);
+  blatt.setColumnWidth(ersteMensch + 1, 280);
+}
+
+/** Entscheidungen ohne passenden Datensatz: anhängen, nie löschen. */
+function archiviereEntscheidungen(ss, archiv) {
+  if (!archiv.length) return;
+  var name = KONFIG.ausgabe.archiv;
+  var blatt = ss.getSheetByName(name) || ss.insertSheet(name);
+  if (blatt.getLastRow() === 0) {
+    blatt.appendRow(ARCHIV_SPALTEN);
+    blatt.getRange(1, 1, 1, ARCHIV_SPALTEN.length).setFontWeight('bold');
+    blatt.setFrozenRows(1);
+  }
+  var zeit = Utilities.formatDate(new Date(), Session.getScriptTimeZone() || 'Europe/Berlin', 'yyyy-MM-dd HH:mm');
+  var zeilen = archiv.map(function (z) { return [zeit].concat(z.slice(1)).map(entschaerfe); });
+  var bereich = blatt.getRange(blatt.getLastRow() + 1, 1, zeilen.length, ARCHIV_SPALTEN.length);
+  bereich.setNumberFormat('@');
+  bereich.setValues(zeilen);
+}
+
+/* ------------------------------------------------------------------ Kontrolle: Gegenprobe mit Formeln */
+
+/** Tabname für eine Formel: immer in Hochkommas („'Prüfen'!“). */
+function tabRef(name) { return "'" + String(name).replace(/'/g, "''") + "'!"; }
+
+function spaltenBuchstabe(nr) { return String.fromCharCode(64 + nr); } // reicht bis Spalte Z
+
+/** Wie oft kommt „Messe-“ in der Spalte „quellen“ vor? = Fundstellen dieser Quelle im Tab. */
+function formelFundstellen(tab, spalte, quelle) {
+  var b = tabRef(tab) + spalte + '2:' + spalte;
+  return '=SUMPRODUCT((LEN(' + b + ')-LEN(SUBSTITUTE(' + b + ',"' + quelle + '-","")))/LEN("' + quelle + '-"))';
+}
+
+/**
+ * Tab „Kontrolle“: Google Sheets zählt selbst nach – aus den Tabs, nicht aus dem Gedächtnis des Skripts.
+ * Die Zahlen „laut Skript“ stammen vom letzten Lauf. Ändert jemand „Sauber“ oder „Prüfen“ später von Hand,
+ * oder geht beim Schreiben etwas verloren, zeigt die Spalte „stimmt“ ein ✗.
+ */
+function schreibeKontrolle(ss, p) {
+  var name = KONFIG.ausgabe.kontrolle;
+  var blatt = ss.getSheetByName(name) || ss.insertSheet(name);
+  blatt.clear();
+  var sauberTab = KONFIG.ausgabe.sauber, pruefTab = KONFIG.ausgabe.pruefen;
+  var sQ = spaltenBuchstabe(ZIEL_SPALTEN.indexOf('quellen') + 1);   // G
+  var pQ = spaltenBuchstabe(PRUEF_SPALTEN.indexOf('quellen') + 1);  // H
+  var quellen = KONFIG.quellen.map(function (q) { return q.tab; });
+
+  blatt.getRange(1, 1).setValue('Gegenprobe mit Tabellenformeln').setFontWeight('bold').setFontSize(13);
+  blatt.getRange(2, 1).setValue('Die Spalten „Formel“ rechnen direkt aus den Tabs. „laut Skript“ sind die Zahlen des letzten Laufs. ' +
+                                'Jede Zeile muss ✓ zeigen. Ein ✗ heißt: Jemand hat die Ergebnis-Tabs geändert oder beim Schreiben ist etwas verloren gegangen.');
+
+  var kopf = ['Quelle', 'gelesen (Formel)', 'gelesen laut Skript', 'in Sauber (Formel)', 'in Prüfen (Formel)',
+              'gesperrt = Rest (Formel)', 'gesperrt laut Skript', 'stimmt'];
+  blatt.getRange(4, 1, 1, kopf.length).setValues([kopf]).setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#2F4858');
+
+  quellen.forEach(function (q, i) {
+    var r = 5 + i;
+    blatt.getRange(r, 1).setValue(q);
+    // Nicht-leere Zeilen im Quell-Tab (ohne Kopfzeile), wie das Skript sie zählt
+    blatt.getRange(r, 2).setFormula('=SUMPRODUCT(--(LEN(TRIM(BYROW(' + tabRef(q) + 'A2:Z,LAMBDA(zeile,TEXTJOIN("",TRUE,zeile)))))>0))');
+    blatt.getRange(r, 3).setValue(p.gelesen[q]);
+    blatt.getRange(r, 4).setFormula(formelFundstellen(sauberTab, sQ, q));
+    blatt.getRange(r, 5).setFormula(formelFundstellen(pruefTab, pQ, q));
+    blatt.getRange(r, 6).setFormula('=B' + r + '-D' + r + '-E' + r);
+    blatt.getRange(r, 7).setValue(p.jeQuelle[q].gesperrt);
+    blatt.getRange(r, 8).setFormula('=IF(AND(B' + r + '=C' + r + ',F' + r + '=G' + r + '),"✓","✗")');
+  });
+  var s = 5 + quellen.length, letzte = s - 1;
+  blatt.getRange(s, 1).setValue('Summe').setFontWeight('bold');
+  ['B', 'C', 'D', 'E', 'F', 'G'].forEach(function (sp, i) {
+    blatt.getRange(s, 2 + i).setFormula('=SUM(' + sp + '5:' + sp + letzte + ')');
+  });
+  blatt.getRange(s, 8).setFormula('=IF(AND(B' + s + '=C' + s + ',F' + s + '=G' + s + '),"✓","✗")');
+
+  var k = s + 2;
+  blatt.getRange(k, 1, 1, 4).setValues([['Kennzahl', 'Formel', 'laut Skript', 'stimmt']])
+    .setFontWeight('bold').setFontColor('#FFFFFF').setBackground('#2F4858');
+  var kennzahlen = [
+    ['Datensätze in Sauber', '=COUNTA(' + tabRef(sauberTab) + sQ + '2:' + sQ + ')', p.sauber],
+    ['Datensätze in Prüfen', '=COUNTA(' + tabRef(pruefTab) + pQ + '2:' + pQ + ')', p.pruefen],
+    ['Zusammengeführte Zeilen', '=D' + s + '+E' + s + '-B' + (k + 1) + '-B' + (k + 2), p.zusammengefuehrt]
+  ];
+  kennzahlen.forEach(function (z, i) {
+    var r = k + 1 + i;
+    blatt.getRange(r, 1).setValue(z[0]);
+    blatt.getRange(r, 2).setFormula(z[1]);
+    blatt.getRange(r, 3).setValue(z[2]);
+    blatt.getRange(r, 4).setFormula('=IF(B' + r + '=C' + r + ',"✓","✗")');
+  });
+  var e = k + 5;
+  blatt.getRange(e, 1).setValue('Ergebnis').setFontWeight('bold');
+  blatt.getRange(e, 2).setFormula('=IF(COUNTIF(H5:H' + s + ',"✗")+COUNTIF(D' + (k + 1) + ':D' + (k + 3) + ',"✗")=0,"OK","ABWEICHUNG")')
+    .setFontWeight('bold');
+  blatt.setColumnWidth(1, 200);
 }
 
 /**
@@ -81,7 +209,7 @@ function entschaerfe(wert) {
 }
 
 /** Jede Ausführung hängt eine Zeile an – auch abgebrochene Läufe. */
-function schreibeProtokoll(ss, p, fehlertext) {
+function schreibeProtokoll(ss, p, fehlertext, zusatz) {
   var name = KONFIG.ausgabe.protokoll;
   var blatt = ss.getSheetByName(name) || ss.insertSheet(name);
   var quellen = KONFIG.quellen.map(function (q) { return q.tab; });
@@ -103,7 +231,7 @@ function schreibeProtokoll(ss, p, fehlertext) {
     quellen.map(function (q) { return p.gelesen[q]; }),
     [p.summeGelesen, p.gesperrt, p.sauber, p.pruefen, p.zusammengefuehrt, p.bilanzOk ? 'OK' : 'FEHLER',
      [p.bilanzOk ? '' : 'Gelesen ≠ Sauber + Prüfen + gesperrt',
-      p.datumUnlesbar ? p.datumUnlesbar + ' Datumswert(e) nicht lesbar' : ''].filter(Boolean).join('; ')]
+      p.datumUnlesbar ? p.datumUnlesbar + ' Datumswert(e) nicht lesbar' : '', zusatz || ''].filter(Boolean).join('; ')]
   ));
 }
 
