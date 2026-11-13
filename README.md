@@ -241,7 +241,9 @@ The full set of rules is described in [`docs/spezifikation.md`](docs/spezifikati
 
 The project is based on a course exercise from a training programme in AI management and process automation, in which 18 rows were cleaned with n8n. The idea was rebuilt in Apps Script with synthetic data, stricter rules and a view for management.
 
-Concept, business rules, acceptance and presentation: Dariia Sichynska. Code and tests were written with Claude (Anthropic).
+Concept, business rules, acceptance and presentation: Dariia Sichynska.
+
+Tools: Google Apps Script, Google Sheets, Node (tests), Claude (Anthropic).
 
 **Scope**
 
